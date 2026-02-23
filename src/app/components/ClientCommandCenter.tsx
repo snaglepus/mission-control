@@ -5,14 +5,17 @@ import {
   Building2, 
   Calendar, 
   FileText, 
-  TrendingUp, 
   AlertCircle,
   CheckCircle2,
   Clock,
   MoreVertical,
   Plus,
   Filter,
-  Search
+  Search,
+  ArrowUpRight,
+  Wallet,
+  Activity,
+  Briefcase
 } from "lucide-react";
 
 interface Client {
@@ -24,7 +27,7 @@ interface Client {
   nextMeeting: string;
   upcomingDeliverables: string[];
   recentActivity: string;
-  health: number; // 0-100
+  health: number;
 }
 
 const mockClients: Client[] = [
@@ -111,170 +114,181 @@ export default function ClientCommandCenter() {
   const activeClients = mockClients.filter(c => c.status === "active").length;
   const atRiskClients = mockClients.filter(c => c.status === "at-risk").length;
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "active": return "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+      case "at-risk": return "bg-red-500/20 text-red-400 border-red-500/30";
+      case "prospective": return "bg-amber-500/20 text-amber-400 border-amber-500/30";
+      case "completing": return "bg-slate-500/20 text-slate-400 border-slate-500/30";
+      default: return "bg-slate-500/20 text-slate-400";
+    }
+  };
+
+  const getHealthColor = (health: number) => {
+    if (health >= 80) return "bg-emerald-500";
+    if (health >= 60) return "bg-amber-500";
+    return "bg-red-500";
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Client Command Center</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Client <span className="gradient-text">Command Center</span>
+          </h1>
           <p className="text-slate-400">Manage all client engagements and deliverables</p>
         </div>
-        <button className="flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-medium transition-colors">
-          <Plus className="w-4 h-4 mr-2" />
+        <button className="flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 rounded-xl text-white font-medium transition-all shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50">
+          <Plus className="w-5 h-5 mr-2" />
           Add Client
         </button>
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-slate-400 text-sm">Active Clients</p>
-              <p className="text-2xl font-bold text-white">{activeClients}</p>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="glass-card p-6 hover-lift">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+              <Building2 className="w-6 h-6 text-white" />
             </div>
-            <div className="w-10 h-10 bg-indigo-600/20 rounded-lg flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-indigo-400" />
-            </div>
+            <span className="text-emerald-400 text-sm font-medium flex items-center">
+              <ArrowUpRight className="w-4 h-4 mr-1" />
+              Active
+            </span>
           </div>
+          <p className="text-slate-400 text-sm mb-1">Active Clients</p>
+          <p className="text-3xl font-bold text-white">{activeClients}</p>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-slate-400 text-sm">Weekly Revenue</p>
-              <p className="text-2xl font-bold text-white">${(totalWeeklyRevenue / 1000).toFixed(1)}k</p>
+
+        <div className="glass-card p-6 hover-lift">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+              <Wallet className="w-6 h-6 text-white" />
             </div>
-            <div className="w-10 h-10 bg-emerald-600/20 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-            </div>
+            <span className="text-emerald-400 text-sm font-medium flex items-center">
+              <ArrowUpRight className="w-4 h-4 mr-1" />
+              +12%
+            </span>
           </div>
+          <p className="text-slate-400 text-sm mb-1">Weekly Revenue</p>
+          <p className="text-3xl font-bold text-white">${(totalWeeklyRevenue / 1000).toFixed(1)}k</p>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-slate-400 text-sm">At Risk</p>
-              <p className="text-2xl font-bold text-white">{atRiskClients}</p>
+
+        <div className="glass-card p-6 hover-lift">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-500/30">
+              <AlertCircle className="w-6 h-6 text-white" />
             </div>
-            <div className="w-10 h-10 bg-red-600/20 rounded-lg flex items-center justify-center">
-              <AlertCircle className="w-5 h-5 text-red-400" />
-            </div>
+            <span className="text-red-400 text-sm font-medium">Attention</span>
           </div>
+          <p className="text-slate-400 text-sm mb-1">At Risk</p>
+          <p className="text-3xl font-bold text-white">{atRiskClients}</p>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-slate-400 text-sm">This Week</p>
-              <p className="text-2xl font-bold text-white">8 Meetings</p>
+
+        <div className="glass-card p-6 hover-lift">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Calendar className="w-6 h-6 text-white" />
             </div>
-            <div className="w-10 h-10 bg-amber-600/20 rounded-lg flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-amber-400" />
-            </div>
+            <span className="text-slate-400 text-sm font-medium">This Week</span>
           </div>
+          <p className="text-slate-400 text-sm mb-1">Meetings</p>
+          <p className="text-3xl font-bold text-white">8</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex items-center space-x-4">
-        <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg px-3 py-2">
-          <Filter className="w-4 h-4 text-slate-400 mr-2" />
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="glass-card px-4 py-2 flex items-center">
+          <Filter className="w-4 h-4 text-cyan-400 mr-3" />
           <select 
             value={filter}
             onChange={(e) => setFilter(e.target.value as "all" | "active" | "at-risk" | "prospective")}
-            className="bg-transparent text-slate-300 text-sm focus:outline-none"
+            className="bg-transparent text-slate-200 text-sm focus:outline-none cursor-pointer"
           >
-            <option value="all">All Clients</option>
-            <option value="active">Active</option>
-            <option value="at-risk">At Risk</option>
-            <option value="prospective">Prospective</option>
+            <option value="all" className="bg-slate-900">All Clients</option>
+            <option value="active" className="bg-slate-900">Active</option>
+            <option value="at-risk" className="bg-slate-900">At Risk</option>
+            <option value="prospective" className="bg-slate-900">Prospective</option>
           </select>
         </div>
-        <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 flex-1 max-w-md">
-          <Search className="w-4 h-4 text-slate-400 mr-2" />
+        <div className="glass-card px-4 py-2 flex items-center flex-1 max-w-md">
+          <Search className="w-4 h-4 text-cyan-400 mr-3" />
           <input 
             type="text" 
             placeholder="Search clients..."
-            className="bg-transparent text-slate-300 text-sm focus:outline-none w-full"
+            className="bg-transparent text-slate-200 text-sm focus:outline-none w-full placeholder-slate-500"
           />
         </div>
       </div>
 
       {/* Client Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {filteredClients.map((client) => (
           <div 
             key={client.id}
             onClick={() => setSelectedClient(client)}
-            className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 cursor-pointer transition-all"
+            className="glass-card p-6 cursor-pointer hover-lift group"
           >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center space-x-3">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  client.status === "active" ? "bg-emerald-600/20" :
-                  client.status === "at-risk" ? "bg-red-600/20" :
-                  client.status === "prospective" ? "bg-amber-600/20" :
-                  "bg-slate-700/50"
-                }`}>
-                  <Building2 className={`w-5 h-5 ${
-                    client.status === "active" ? "text-emerald-400" :
-                    client.status === "at-risk" ? "text-red-400" :
-                    client.status === "prospective" ? "text-amber-400" :
-                    "text-slate-400"
-                  }`} />
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
+                  client.status === "active" ? "bg-gradient-to-br from-emerald-500 to-teal-500" :
+                  client.status === "at-risk" ? "bg-gradient-to-br from-red-500 to-pink-500" :
+                  client.status === "prospective" ? "bg-gradient-to-br from-amber-500 to-orange-500" :
+                  "bg-gradient-to-br from-slate-500 to-slate-600"
+                } shadow-lg`}>
+                  <Building2 className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">{client.name}</h3>
-                  <p className="text-sm text-slate-400">{client.role}</p>
+                  <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">{client.name}</h3>
+                  <p className="text-slate-400">{client.role}</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <span className={`px-2 py-1 rounded text-xs font-medium ${
-                  client.status === "active" ? "bg-emerald-500/20 text-emerald-400" :
-                  client.status === "at-risk" ? "bg-red-500/20 text-red-400" :
-                  client.status === "prospective" ? "bg-amber-500/20 text-amber-400" :
-                  "bg-slate-700 text-slate-400"
-                }`}>
+              <div className="flex items-center space-x-3">
+                <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${getStatusColor(client.status)}`}>
                   {client.status}
                 </span>
-                <button className="text-slate-500 hover:text-slate-300">
-                  <MoreVertical className="w-4 h-4" />
+                <button className="text-slate-500 hover:text-slate-300 p-2 rounded-lg hover:bg-white/5 transition-all">
+                  <MoreVertical className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs text-slate-500">Weekly Revenue</p>
-                <p className="text-lg font-semibold text-white">${client.weeklyRevenue.toLocaleString()}</p>
+            <div className="grid grid-cols-2 gap-6 mb-4">
+              <div className="glass-card p-4">
+                <p className="text-slate-500 text-sm mb-1">Weekly Revenue</p>
+                <p className="text-2xl font-bold text-white">${client.weeklyRevenue.toLocaleString()}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Health Score</p>
+                <p className="text-slate-500 text-sm mb-2">Health Score</p>
                 <div className="flex items-center">
-                  <div className="flex-1 bg-slate-800 rounded-full h-2 mr-2">
+                  <div className="flex-1 bg-slate-800 rounded-full h-2.5 mr-3 overflow-hidden">
                     <div 
-                      className={`h-2 rounded-full ${
-                        client.health >= 80 ? "bg-emerald-500" :
-                        client.health >= 60 ? "bg-amber-500" :
-                        "bg-red-500"
-                      }`}
+                      className={`h-full rounded-full ${getHealthColor(client.health)} transition-all duration-500`}
                       style={{ width: `${client.health}%` }}
                     />
                   </div>
-                  <span className="text-sm text-slate-300">{client.health}%</span>
+                  <span className="text-lg font-semibold text-white">{client.health}%</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-slate-800">
-              <div className="flex items-center text-sm text-slate-400">
-                <Clock className="w-4 h-4 mr-2" />
+            <div className="pt-4 border-t border-indigo-500/10">
+              <div className="flex items-center text-sm text-slate-400 mb-2">
+                <Clock className="w-4 h-4 mr-2 text-cyan-400" />
                 {client.nextMeeting}
               </div>
               {client.upcomingDeliverables.length > 0 && (
-                <div className="mt-2 flex items-start text-sm">
-                  <FileText className="w-4 h-4 mr-2 text-slate-500 mt-0.5" />
+                <div className="flex items-start text-sm">
+                  <FileText className="w-4 h-4 mr-2 text-purple-400 mt-0.5" />
                   <span className="text-slate-400">
                     {client.upcomingDeliverables.slice(0, 2).join(", ")}
-                    {client.upcomingDeliverables.length > 2 && ` +${client.upcomingDeliverables.length - 2} more`}
+                    {client.upcomingDeliverables.length > 2 && (
+                      <span className="text-cyan-400 ml-1">+{client.upcomingDeliverables.length - 2} more</span>
+                    )}
                   </span>
                 </div>
               )}
@@ -285,55 +299,63 @@ export default function ClientCommandCenter() {
 
       {/* Client Detail Modal */}
       {selectedClient && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full max-h-[80vh] overflow-auto">
-            <div className="p-6 border-b border-slate-800 flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-indigo-600/20 rounded-lg flex items-center justify-center">
-                  <Building2 className="w-6 h-6 text-indigo-400" />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="glass-card max-w-2xl w-full max-h-[80vh] overflow-auto">
+            <div className="p-6 border-b border-indigo-500/10 flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <Building2 className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white">{selectedClient.name}</h2>
+                  <h2 className="text-2xl font-bold text-white">{selectedClient.name}</h2>
                   <p className="text-slate-400">{selectedClient.role}</p>
                 </div>
               </div>
               <button 
                 onClick={() => setSelectedClient(null)}
-                className="text-slate-400 hover:text-white"
+                className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all"
               >
                 ✕
               </button>
             </div>
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <p className="text-slate-400 text-sm">Weekly Revenue</p>
-                  <p className="text-xl font-bold text-white">${selectedClient.weeklyRevenue.toLocaleString()}</p>
+                <div className="glass-card p-4 text-center">
+                  <p className="text-slate-500 text-sm mb-1">Weekly Revenue</p>
+                  <p className="text-2xl font-bold text-white">${selectedClient.weeklyRevenue.toLocaleString()}</p>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <p className="text-slate-400 text-sm">Health Score</p>
-                  <p className="text-xl font-bold text-white">{selectedClient.health}%</p>
+                <div className="glass-card p-4 text-center">
+                  <p className="text-slate-500 text-sm mb-1">Health Score</p>
+                  <p className="text-2xl font-bold text-white">{selectedClient.health}%</p>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <p className="text-slate-400 text-sm">Status</p>
-                  <p className="text-xl font-bold text-white capitalize">{selectedClient.status}</p>
+                <div className="glass-card p-4 text-center">
+                  <p className="text-slate-500 text-sm mb-1">Status</p>
+                  <p className="text-2xl font-bold text-white capitalize">{selectedClient.status}</p>
                 </div>
               </div>
               
               <div>
-                <h3 className="text-sm font-semibold text-slate-300 mb-3">Upcoming Deliverables</h3>
-                <div className="space-y-2">
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                  <Briefcase className="w-5 h-5 mr-2 text-cyan-400" />
+                  Upcoming Deliverables
+                </h3>
+                <div className="space-y-3">
                   {selectedClient.upcomingDeliverables.map((deliverable, idx) => (
-                    <div key={idx} className="flex items-center bg-slate-800/50 rounded-lg p-3">
-                      <CheckCircle2 className="w-4 h-4 text-indigo-400 mr-3" />
-                      <span className="text-slate-300">{deliverable}</span>
+                    <div key={idx} className="glass-card p-4 flex items-center group hover:border-cyan-500/30 transition-all">
+                      <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center mr-4 group-hover:bg-cyan-500/30 transition-all">
+                        <CheckCircle2 className="w-5 h-5 text-cyan-400" />
+                      </div>
+                      <span className="text-slate-200">{deliverable}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold text-slate-300 mb-3">Recent Activity</h3>
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-purple-400" />
+                  Recent Activity
+                </h3>
                 <p className="text-slate-400">{selectedClient.recentActivity}</p>
               </div>
             </div>
