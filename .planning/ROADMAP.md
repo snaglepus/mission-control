@@ -27,7 +27,10 @@ A targeted visual reskin of the Mission Control dashboard from cool neon (cyan/p
   2. CSS custom properties for amber, gold, copper, and warm-text are defined in `:root` and visible in DevTools
   3. A glass card with `backdrop-filter` toggled off is still visible against the background (confirms background has sufficient saturation)
   4. `--accent-gold` and `--warning` are distinct tokens with visually different shades (no amber/warning collision)
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 01-01-PLAN.md — Warm color tokens, background gradient, and glass card saturate
+- [ ] 01-02-PLAN.md — Ambient atmospheric orbs with drift animation
 
 ### Phase 2: Glass Card System
 **Goal**: All shared glassmorphism classes in `globals.css @layer components` use warm amber tints, borders, and glow effects so every card inherits the warm look without per-card changes
@@ -83,7 +86,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/2 | Planned | - |
 | 2. Glass Card System | 0/TBD | Not started | - |
 | 3. Typography & Page Frame | 0/TBD | Not started | - |
 | 4. View Components | 0/TBD | Not started | - |
