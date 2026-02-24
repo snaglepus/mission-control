@@ -16,11 +16,11 @@ Requirements for the warm glassmorphism redesign. Each maps to roadmap phases.
 
 ### Glass Card System
 
-- [ ] **GLASS-01**: Card backgrounds use warm-tinted transparency (`rgba(30, 16, 4, 0.65)`)
-- [ ] **GLASS-02**: Card borders use amber translucent color (`rgba(251, 191, 36, 0.2)`) with warmer hover state
-- [ ] **GLASS-03**: Card hover glow uses amber shadow instead of indigo
-- [ ] **GLASS-04**: Inset gold highlight on card top edge simulating light on glass
-- [ ] **GLASS-05**: Hover-lift shadow uses warm amber bloom instead of neutral black
+- [x] **GLASS-01**: Card backgrounds use warm-tinted transparency (`rgba(30, 16, 4, 0.65)`)
+- [x] **GLASS-02**: Card borders use amber translucent color (`rgba(251, 191, 36, 0.2)`) with warmer hover state
+- [x] **GLASS-03**: Card hover glow uses amber shadow instead of indigo
+- [x] **GLASS-04**: Inset gold highlight on card top edge simulating light on glass
+- [x] **GLASS-05**: Hover-lift shadow uses warm amber bloom instead of neutral black
 
 ### Typography & Accents
 
@@ -78,11 +78,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FNDTN-02 | Phase 1 | Complete |
 | FNDTN-03 | Phase 1 | Complete |
 | FNDTN-04 | Phase 1 | Complete |
-| GLASS-01 | Phase 2 | Pending |
-| GLASS-02 | Phase 2 | Pending |
-| GLASS-03 | Phase 2 | Pending |
-| GLASS-04 | Phase 2 | Pending |
-| GLASS-05 | Phase 2 | Pending |
+| GLASS-01 | Phase 2 | Complete |
+| GLASS-02 | Phase 2 | Complete |
+| GLASS-03 | Phase 2 | Complete |
+| GLASS-04 | Phase 2 | Complete |
+| GLASS-05 | Phase 2 | Complete |
 | TYPO-01 | Phase 3 | Pending |
 | TYPO-02 | Phase 3 | Pending |
 | TYPO-03 | Phase 3 | Pending |
