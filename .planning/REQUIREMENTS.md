@@ -74,33 +74,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FNDTN-01 | — | Pending |
-| FNDTN-02 | — | Pending |
-| FNDTN-03 | — | Pending |
-| FNDTN-04 | — | Pending |
-| GLASS-01 | — | Pending |
-| GLASS-02 | — | Pending |
-| GLASS-03 | — | Pending |
-| GLASS-04 | — | Pending |
-| GLASS-05 | — | Pending |
-| TYPO-01 | — | Pending |
-| TYPO-02 | — | Pending |
-| TYPO-03 | — | Pending |
-| TYPO-04 | — | Pending |
-| SIDE-01 | — | Pending |
-| SIDE-02 | — | Pending |
-| SIDE-03 | — | Pending |
-| COMP-01 | — | Pending |
-| COMP-02 | — | Pending |
-| COMP-03 | — | Pending |
-| COMP-04 | — | Pending |
-| COMP-05 | — | Pending |
+| FNDTN-01 | Phase 1 | Pending |
+| FNDTN-02 | Phase 1 | Pending |
+| FNDTN-03 | Phase 1 | Pending |
+| FNDTN-04 | Phase 1 | Pending |
+| GLASS-01 | Phase 2 | Pending |
+| GLASS-02 | Phase 2 | Pending |
+| GLASS-03 | Phase 2 | Pending |
+| GLASS-04 | Phase 2 | Pending |
+| GLASS-05 | Phase 2 | Pending |
+| TYPO-01 | Phase 3 | Pending |
+| TYPO-02 | Phase 3 | Pending |
+| TYPO-03 | Phase 3 | Pending |
+| TYPO-04 | Phase 3 | Pending |
+| SIDE-01 | Phase 5 | Pending |
+| SIDE-02 | Phase 5 | Pending |
+| SIDE-03 | Phase 5 | Pending |
+| COMP-01 | Phase 4 | Pending |
+| COMP-02 | Phase 4 | Pending |
+| COMP-03 | Phase 4 | Pending |
+| COMP-04 | Phase 4 | Pending |
+| COMP-05 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 21 total
-- Mapped to phases: 0
-- Unmapped: 21
+- Mapped to phases: 21
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-24*
-*Last updated: 2026-02-24 after initial definition*
+*Last updated: 2026-02-24 after roadmap creation — traceability complete*

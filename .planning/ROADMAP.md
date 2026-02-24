@@ -1,0 +1,93 @@
+# Roadmap: Mission Control — UI Redesign
+
+## Overview
+
+A targeted visual reskin of the Mission Control dashboard from cool neon (cyan/purple/pink on navy-indigo) to warm amber/gold/copper glassmorphism. The redesign proceeds in dependency order: color tokens and background first, then shared CSS classes, then the page frame, then view components, then sidebar restructure and final polish. Every visual change is isolated to CSS values and Tailwind class substitutions — no functional changes, no new components, no new packages.
+
+## Phases
+
+**Phase Numbering:**
+- Integer phases (1, 2, 3): Planned milestone work
+- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+- [ ] **Phase 1: Foundation** - Define warm color tokens in CSS variables and shift background gradient to deep brown-amber
+- [ ] **Phase 2: Glass Card System** - Update shared glassmorphism CSS classes to warm amber tints, borders, and glow effects
+- [ ] **Phase 3: Typography & Page Frame** - Replace gradient text and all inline cool-color classes in page.tsx (header, dashboard overview)
+- [ ] **Phase 4: View Components** - Replace all cool-color inline classes in ClientCommandCenter, MeetingIntelligence, and TaskMissionControl
+- [ ] **Phase 5: Sidebar & Polish** - Restructure sidebar to slim icon-above-label format and apply warm active states and logo orb
+
+## Phase Details
+
+### Phase 1: Foundation
+**Goal**: The warm color token system is defined and the background gradient is warm — every downstream change has a correct base to build on
+**Depends on**: Nothing (first phase)
+**Requirements**: FNDTN-01, FNDTN-02, FNDTN-03, FNDTN-04
+**Success Criteria** (what must be TRUE):
+  1. Visiting the app shows a warm dark brown-amber background gradient instead of the navy-indigo background
+  2. CSS custom properties for amber, gold, copper, and warm-text are defined in `:root` and visible in DevTools
+  3. A glass card with `backdrop-filter` toggled off is still visible against the background (confirms background has sufficient saturation)
+  4. `--accent-gold` and `--warning` are distinct tokens with visually different shades (no amber/warning collision)
+**Plans**: TBD
+
+### Phase 2: Glass Card System
+**Goal**: All shared glassmorphism classes in `globals.css @layer components` use warm amber tints, borders, and glow effects so every card inherits the warm look without per-card changes
+**Depends on**: Phase 1
+**Requirements**: GLASS-01, GLASS-02, GLASS-03, GLASS-04, GLASS-05
+**Success Criteria** (what must be TRUE):
+  1. Glass cards render with a warm brown-amber tint background instead of the previous cool-dark tint
+  2. Card borders glow amber on hover instead of indigo
+  3. Cards show an inset gold highlight on the top edge simulating light on glass
+  4. Hovering a card produces an amber warm shadow bloom instead of a neutral shadow
+  5. Running `grep -n "from-indigo\|from-cyan\|from-purple" src/app/globals.css` returns zero results in `@layer components`
+**Plans**: TBD
+
+### Phase 3: Typography & Page Frame
+**Goal**: All gradient text, dividers, and the ~45 inline cool-color Tailwind classes in `page.tsx` are replaced with warm equivalents — the persistent header and dashboard overview are fully warm
+**Depends on**: Phase 2
+**Requirements**: TYPO-01, TYPO-02, TYPO-03, TYPO-04
+**Success Criteria** (what must be TRUE):
+  1. Gradient text headings display amber → gold → copper spectrum instead of cyan/purple
+  2. Stat values show a warm amber text glow instead of cool glow
+  3. Dividers and borders throughout the page frame use amber tint instead of indigo tint
+  4. Keyboard-navigating the header and dashboard overview produces zero cyan/purple/pink color flashes on hover or focus
+  5. `grep -n "cyan\|purple\|pink\|indigo" src/app/page.tsx` returns zero results
+**Plans**: TBD
+
+### Phase 4: View Components
+**Goal**: All three view components (ClientCommandCenter, MeetingIntelligence, TaskMissionControl) have their ~60 inline cool-color Tailwind classes replaced with warm equivalents, and Recharts chart colors are updated to the warm palette
+**Depends on**: Phase 3
+**Requirements**: COMP-01, COMP-02, COMP-03, COMP-04, COMP-05
+**Success Criteria** (what must be TRUE):
+  1. Switching to any view shows a fully warm amber/gold color palette with no remaining cyan, purple, or pink elements
+  2. Status indicators (active/prospective/at-risk) remain visually distinct and semantically legible — green/red semantic colors preserved
+  3. Charts and data visualizations render in warm amber/orange/gold colors instead of cool neon colors
+  4. Running `grep -rn "cyan\|purple\|pink\|indigo" src/components/` returns zero results across all three view files
+  5. Chrome DevTools accessibility audit on any rendered view card passes contrast ratio requirements
+**Plans**: TBD
+
+### Phase 5: Sidebar & Polish
+**Goal**: The sidebar is restructured to slim icon-above-label format with warm active states and logo orb, and ambient background orbs add atmospheric depth to the glassmorphism effect
+**Depends on**: Phase 4
+**Requirements**: SIDE-01, SIDE-02, SIDE-03
+**Success Criteria** (what must be TRUE):
+  1. The sidebar displays icons centered above small text labels — not side-by-side — and all four navigation items are readable without truncation
+  2. The active sidebar item shows an amber/orange gradient background and indicator bar instead of indigo
+  3. The logo orb uses an amber-to-orange gradient with warm glow instead of cool colors
+  4. Two or three ambient radial gradient orbs are visible in the background behind UI panels, adding depth to the glass effect
+**Plans**: TBD
+
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Foundation | 0/TBD | Not started | - |
+| 2. Glass Card System | 0/TBD | Not started | - |
+| 3. Typography & Page Frame | 0/TBD | Not started | - |
+| 4. View Components | 0/TBD | Not started | - |
+| 5. Sidebar & Polish | 0/TBD | Not started | - |
+
+---
+*Roadmap created: 2026-02-24*
