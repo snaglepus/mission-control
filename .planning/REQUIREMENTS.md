@@ -24,10 +24,10 @@ Requirements for the warm glassmorphism redesign. Each maps to roadmap phases.
 
 ### Typography & Accents
 
-- [ ] **TYPO-01**: Gradient text headings use amber → gold → copper spectrum
-- [ ] **TYPO-02**: All ~105 inline cyan/purple/pink Tailwind classes replaced with amber/gold/orange equivalents
-- [ ] **TYPO-03**: Dividers and borders shifted from indigo tint to amber tint throughout
-- [ ] **TYPO-04**: Text glow utility uses warm amber shadow on stat values
+- [x] **TYPO-01**: Gradient text headings use amber → gold → copper spectrum
+- [x] **TYPO-02**: All ~105 inline cyan/purple/pink Tailwind classes replaced with amber/gold/orange equivalents
+- [x] **TYPO-03**: Dividers and borders shifted from indigo tint to amber tint throughout
+- [x] **TYPO-04**: Text glow utility uses warm amber shadow on stat values
 
 ### Sidebar & Navigation
 
@@ -83,10 +83,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GLASS-03 | Phase 2 | Complete |
 | GLASS-04 | Phase 2 | Complete |
 | GLASS-05 | Phase 2 | Complete |
-| TYPO-01 | Phase 3 | Pending |
-| TYPO-02 | Phase 3 | Pending |
-| TYPO-03 | Phase 3 | Pending |
-| TYPO-04 | Phase 3 | Pending |
+| TYPO-01 | Phase 3 | Complete |
+| TYPO-02 | Phase 3 | Complete |
+| TYPO-03 | Phase 3 | Complete |
+| TYPO-04 | Phase 3 | Complete |
 | SIDE-01 | Phase 5 | Pending |
 | SIDE-02 | Phase 5 | Pending |
 | SIDE-03 | Phase 5 | Pending |
