@@ -140,7 +140,7 @@ export default function ClientCommandCenter() {
           </h1>
           <p className="text-slate-400">Manage all client engagements and deliverables</p>
         </div>
-        <button className="flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 rounded-xl text-white font-medium transition-all shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50">
+        <button className="flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 rounded-xl text-white font-medium transition-all shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50">
           <Plus className="w-5 h-5 mr-2" />
           Add Client
         </button>
@@ -150,7 +150,7 @@ export default function ClientCommandCenter() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="glass-card p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
               <Building2 className="w-6 h-6 text-white" />
             </div>
             <span className="text-emerald-400 text-sm font-medium flex items-center">
@@ -164,7 +164,7 @@ export default function ClientCommandCenter() {
 
         <div className="glass-card p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
               <Wallet className="w-6 h-6 text-white" />
             </div>
             <span className="text-emerald-400 text-sm font-medium flex items-center">
@@ -202,7 +202,7 @@ export default function ClientCommandCenter() {
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-4">
         <div className="glass-card px-4 py-2 flex items-center">
-          <Filter className="w-4 h-4 text-cyan-400 mr-3" />
+          <Filter className="w-4 h-4 text-amber-400 mr-3" />
           <select 
             value={filter}
             onChange={(e) => setFilter(e.target.value as "all" | "active" | "at-risk" | "prospective")}
@@ -215,7 +215,7 @@ export default function ClientCommandCenter() {
           </select>
         </div>
         <div className="glass-card px-4 py-2 flex items-center flex-1 max-w-md">
-          <Search className="w-4 h-4 text-cyan-400 mr-3" />
+          <Search className="w-4 h-4 text-amber-400 mr-3" />
           <input 
             type="text" 
             placeholder="Search clients..."
@@ -236,14 +236,14 @@ export default function ClientCommandCenter() {
               <div className="flex items-center space-x-4">
                 <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
                   client.status === "active" ? "bg-gradient-to-br from-emerald-500 to-teal-500" :
-                  client.status === "at-risk" ? "bg-gradient-to-br from-red-500 to-pink-500" :
+                  client.status === "at-risk" ? "bg-gradient-to-br from-red-500 to-orange-500" :
                   client.status === "prospective" ? "bg-gradient-to-br from-amber-500 to-orange-500" :
                   "bg-gradient-to-br from-slate-500 to-slate-600"
                 } shadow-lg`}>
                   <Building2 className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">{client.name}</h3>
+                  <h3 className="text-xl font-bold text-white group-hover:text-amber-400 transition-colors">{client.name}</h3>
                   <p className="text-slate-400">{client.role}</p>
                 </div>
               </div>
@@ -276,18 +276,18 @@ export default function ClientCommandCenter() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-indigo-500/10">
+            <div className="pt-4 border-t border-amber-500/10">
               <div className="flex items-center text-sm text-slate-400 mb-2">
-                <Clock className="w-4 h-4 mr-2 text-cyan-400" />
+                <Clock className="w-4 h-4 mr-2 text-amber-400" />
                 {client.nextMeeting}
               </div>
               {client.upcomingDeliverables.length > 0 && (
                 <div className="flex items-start text-sm">
-                  <FileText className="w-4 h-4 mr-2 text-purple-400 mt-0.5" />
+                  <FileText className="w-4 h-4 mr-2 text-orange-400 mt-0.5" />
                   <span className="text-slate-400">
                     {client.upcomingDeliverables.slice(0, 2).join(", ")}
                     {client.upcomingDeliverables.length > 2 && (
-                      <span className="text-cyan-400 ml-1">+{client.upcomingDeliverables.length - 2} more</span>
+                      <span className="text-amber-400 ml-1">+{client.upcomingDeliverables.length - 2} more</span>
                     )}
                   </span>
                 </div>
@@ -301,9 +301,9 @@ export default function ClientCommandCenter() {
       {selectedClient && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="glass-card max-w-2xl w-full max-h-[80vh] overflow-auto">
-            <div className="p-6 border-b border-indigo-500/10 flex items-center justify-between">
+            <div className="p-6 border-b border-amber-500/10 flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
                   <Building2 className="w-7 h-7 text-white" />
                 </div>
                 <div>
@@ -336,14 +336,14 @@ export default function ClientCommandCenter() {
               
               <div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Briefcase className="w-5 h-5 mr-2 text-cyan-400" />
+                  <Briefcase className="w-5 h-5 mr-2 text-amber-400" />
                   Upcoming Deliverables
                 </h3>
                 <div className="space-y-3">
                   {selectedClient.upcomingDeliverables.map((deliverable, idx) => (
-                    <div key={idx} className="glass-card p-4 flex items-center group hover:border-cyan-500/30 transition-all">
-                      <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center mr-4 group-hover:bg-cyan-500/30 transition-all">
-                        <CheckCircle2 className="w-5 h-5 text-cyan-400" />
+                    <div key={idx} className="glass-card p-4 flex items-center group hover:border-amber-500/30 transition-all">
+                      <div className="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center mr-4 group-hover:bg-amber-500/30 transition-all">
+                        <CheckCircle2 className="w-5 h-5 text-amber-400" />
                       </div>
                       <span className="text-slate-200">{deliverable}</span>
                     </div>
@@ -353,7 +353,7 @@ export default function ClientCommandCenter() {
 
               <div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Activity className="w-5 h-5 mr-2 text-purple-400" />
+                  <Activity className="w-5 h-5 mr-2 text-orange-400" />
                   Recent Activity
                 </h3>
                 <p className="text-slate-400">{selectedClient.recentActivity}</p>
