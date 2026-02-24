@@ -37,11 +37,11 @@ Requirements for the warm glassmorphism redesign. Each maps to roadmap phases.
 
 ### View Components
 
-- [ ] **COMP-01**: All hardcoded cool-color Tailwind classes replaced in ClientCommandCenter.tsx
-- [ ] **COMP-02**: All hardcoded cool-color Tailwind classes replaced in MeetingIntelligence.tsx
-- [ ] **COMP-03**: All hardcoded cool-color Tailwind classes replaced in TaskMissionControl.tsx
-- [ ] **COMP-04**: Status indicators preserve semantic green/red while surrounding UI uses warm palette
-- [ ] **COMP-05**: Recharts chart fills and strokes updated to amber/orange/gold warm colors
+- [x] **COMP-01**: All hardcoded cool-color Tailwind classes replaced in ClientCommandCenter.tsx
+- [x] **COMP-02**: All hardcoded cool-color Tailwind classes replaced in MeetingIntelligence.tsx
+- [x] **COMP-03**: All hardcoded cool-color Tailwind classes replaced in TaskMissionControl.tsx
+- [x] **COMP-04**: Status indicators preserve semantic green/red while surrounding UI uses warm palette
+- [x] **COMP-05**: Recharts chart fills and strokes updated to amber/orange/gold warm colors
 
 ## v2 Requirements
 
@@ -90,11 +90,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SIDE-01 | Phase 5 | Pending |
 | SIDE-02 | Phase 5 | Pending |
 | SIDE-03 | Phase 5 | Pending |
-| COMP-01 | Phase 4 | Pending |
-| COMP-02 | Phase 4 | Pending |
-| COMP-03 | Phase 4 | Pending |
-| COMP-04 | Phase 4 | Pending |
-| COMP-05 | Phase 4 | Pending |
+| COMP-01 | Phase 4 | Complete |
+| COMP-02 | Phase 4 | Complete |
+| COMP-03 | Phase 4 | Complete |
+| COMP-04 | Phase 4 | Complete |
+| COMP-05 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 21 total
