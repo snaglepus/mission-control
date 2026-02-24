@@ -3,22 +3,32 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0e1a;
-  --card: rgba(15, 23, 42, 0.6);
-  --card-border: rgba(99, 102, 241, 0.2);
-  --accent-cyan: #06b6d4;
-  --accent-purple: #8b5cf6;
-  --accent-pink: #ec4899;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  /* Background */
+  --background: #1a0f00;
+
+  /* Warm amber/gold accent spectrum (tight range, honey gold center) */
+  --accent-amber:  #d97706;   /* dark gold — deep end of spectrum */
+  --accent-gold:   #f5a623;   /* honey gold — primary accent */
+  --accent-copper: #c9752a;   /* rose-gold / copper */
+  --accent-orange: #f59e0b;   /* bright gold — bright end */
+
+  /* Card and borders — warm tints (Phase 2 owns final glass values) */
+  --card:         rgba(30, 16, 4, 0.65);
+  --card-border:  rgba(251, 191, 36, 0.2);
+
+  /* Text */
+  --text-primary:   #fdf4e3;   /* warm off-white */
+  --text-secondary: #c4a882;   /* warm gray-gold, NO cool slate */
+
+  /* Semantic — warmed but still readable */
+  --success: #10b981;          /* warm emerald (adjust further in Phase 4 if needed) */
+  --warning: #E8720C;          /* orange-red — clearly distinct from --accent-gold per user decision */
+  --danger:  #dc6b4a;          /* warm coral/brick per user decision */
 }
 
 @layer base {
   body {
-    background: linear-gradient(135deg, #0a0e1a 0%, #0f172a 50%, #1e1b4b 100%);
+    background: linear-gradient(135deg, #1a0f00 0%, #2d1a06 50%, #1f1208 100%);
     min-height: 100vh;
   }
 }
