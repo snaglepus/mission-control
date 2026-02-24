@@ -9,9 +9,9 @@ Requirements for the warm glassmorphism redesign. Each maps to roadmap phases.
 
 ### Color Foundation
 
-- [ ] **FNDTN-01**: CSS custom properties defined for amber, gold, copper, and orange accent colors in `:root`
-- [ ] **FNDTN-02**: Background gradient shifted from navy-indigo to deep-brown/dark-amber (`#1a0f00 → #2d1a06 → #1f1208`)
-- [ ] **FNDTN-03**: Backdrop filter includes `saturate(140%)` alongside `blur(12px)` for warm glass effect
+- [x] **FNDTN-01**: CSS custom properties defined for amber, gold, copper, and orange accent colors in `:root`
+- [x] **FNDTN-02**: Background gradient shifted from navy-indigo to deep-brown/dark-amber (`#1a0f00 → #2d1a06 → #1f1208`)
+- [x] **FNDTN-03**: Backdrop filter includes `saturate(140%)` alongside `blur(12px)` for warm glass effect
 - [ ] **FNDTN-04**: 2-3 ambient radial gradient orbs positioned behind UI for atmospheric depth
 
 ### Glass Card System
@@ -74,9 +74,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FNDTN-01 | Phase 1 | Pending |
-| FNDTN-02 | Phase 1 | Pending |
-| FNDTN-03 | Phase 1 | Pending |
+| FNDTN-01 | Phase 1 | Complete |
+| FNDTN-02 | Phase 1 | Complete |
+| FNDTN-03 | Phase 1 | Complete |
 | FNDTN-04 | Phase 1 | Pending |
 | GLASS-01 | Phase 2 | Pending |
 | GLASS-02 | Phase 2 | Pending |
