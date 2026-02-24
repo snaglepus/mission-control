@@ -56,7 +56,10 @@ Plans:
   3. Dividers and borders throughout the page frame use amber tint instead of indigo tint
   4. Keyboard-navigating the header and dashboard overview produces zero cyan/purple/pink color flashes on hover or focus
   5. `grep -n "cyan\|purple\|pink\|indigo" src/app/page.tsx` returns zero results
-**Plans**: TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 03-01-PLAN.md -- Warm utility class rewrites (globals.css) + inline Tailwind class substitutions (page.tsx) + visual verification
 
 ### Phase 4: View Components
 **Goal**: All three view components (ClientCommandCenter, MeetingIntelligence, TaskMissionControl) have their ~60 inline cool-color Tailwind classes replaced with warm equivalents, and Recharts chart colors are updated to the warm palette
@@ -90,9 +93,18 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete   | 2026-02-24 |
 | 2. Glass Card System | 1/1 | Complete   | 2026-02-24 |
-| 3. Typography & Page Frame | 0/TBD | Not started | - |
+| 3. Typography & Page Frame | 0/1 | Planned | - |
 | 4. View Components | 0/TBD | Not started | - |
 | 5. Sidebar & Polish | 0/TBD | Not started | - |
+
+### Phase 6: Fix incomplete design changes - header and nav
+
+**Goal:** [To be planned]
+**Depends on:** Phase 5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 6 to break down)
 
 ---
 *Roadmap created: 2026-02-24*
