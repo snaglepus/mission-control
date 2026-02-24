@@ -35,16 +35,16 @@
 
 @layer components {
   .glass-card {
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(99, 102, 241, 0.15);
+    background: var(--card);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid var(--card-border);
     border-radius: 16px;
   }
 
   .glass-card:hover {
-    border-color: rgba(99, 102, 241, 0.3);
-    box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
+    border-color: rgba(251, 191, 36, 0.3);
+    box-shadow: 0 0 30px rgba(245, 166, 35, 0.1);
   }
 
   .neon-text {
