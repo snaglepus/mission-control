@@ -71,7 +71,11 @@ Plans:
   3. Charts and data visualizations render in warm amber/orange/gold colors instead of cool neon colors
   4. Running `grep -rn "cyan\|purple\|pink\|indigo" src/components/` returns zero results across all three view files
   5. Chrome DevTools accessibility audit on any rendered view card passes contrast ratio requirements
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Warm color substitution across all three view components (ClientCommandCenter, MeetingIntelligence, TaskMissionControl)
+- [ ] 04-02-PLAN.md — Cross-file grep verification and visual checkpoint
 
 ### Phase 5: Sidebar & Polish
 **Goal**: The sidebar is restructured to slim icon-above-label format with warm active states and logo orb, and ambient background orbs add atmospheric depth to the glassmorphism effect
@@ -94,7 +98,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 2/2 | Complete   | 2026-02-24 |
 | 2. Glass Card System | 1/1 | Complete   | 2026-02-24 |
 | 3. Typography & Page Frame | 0/1 | Planned | - |
-| 4. View Components | 0/TBD | Not started | - |
+| 4. View Components | 0/2 | Planned | - |
 | 5. Sidebar & Polish | 0/TBD | Not started | - |
 
 ### Phase 6: Fix incomplete design changes - header and nav
