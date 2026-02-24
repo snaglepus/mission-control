@@ -42,7 +42,9 @@ Plans:
   3. Cards show an inset gold highlight on the top edge simulating light on glass
   4. Hovering a card produces an amber warm shadow bloom instead of a neutral shadow
   5. Running `grep -n "from-indigo\|from-cyan\|from-purple" src/app/globals.css` returns zero results in `@layer components`
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 02-01-PLAN.md — Warm glass card rest/hover states, top-edge gold highlight, and hover-lift refinement
 
 ### Phase 3: Typography & Page Frame
 **Goal**: All gradient text, dividers, and the ~45 inline cool-color Tailwind classes in `page.tsx` are replaced with warm equivalents — the persistent header and dashboard overview are fully warm
@@ -87,7 +89,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete   | 2026-02-24 |
-| 2. Glass Card System | 0/TBD | Not started | - |
+| 2. Glass Card System | 0/1 | Planned | - |
 | 3. Typography & Page Frame | 0/TBD | Not started | - |
 | 4. View Components | 0/TBD | Not started | - |
 | 5. Sidebar & Polish | 0/TBD | Not started | - |
