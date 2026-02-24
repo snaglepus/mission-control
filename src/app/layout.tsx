@@ -17,7 +17,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} text-slate-100`}>
-        {children}
+        <div className="ambient-orbs" aria-hidden="true">
+          <div className="orb orb-1" />
+          <div className="orb orb-2" />
+          <div className="orb orb-3" />
+        </div>
+        <div className="relative" style={{ zIndex: 1 }}>
+          {children}
+        </div>
       </body>
     </html>
   );

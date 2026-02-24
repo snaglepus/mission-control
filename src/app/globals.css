@@ -178,6 +178,68 @@
     transform: translateY(-4px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
+
+  /* Ambient background orbs — warm atmospheric depth */
+  .ambient-orbs {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    will-change: transform, opacity;
+  }
+
+  /* Orb 1 — warm gold, largest, top-left (behind sidebar area) */
+  .orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(245, 166, 35, 0.6) 0%, transparent 70%);
+    top: -10%;
+    left: -5%;
+    animation: orb-drift-1 30s ease-in-out infinite;
+  }
+
+  /* Orb 2 — warm rose / burnt sienna, bottom-right (behind main content) */
+  .orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(180, 80, 60, 0.5) 0%, transparent 70%);
+    bottom: -5%;
+    right: -5%;
+    animation: orb-drift-2 35s ease-in-out infinite;
+  }
+
+  /* Orb 3 — copper, center-right (subtle floating accent) */
+  .orb-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(201, 117, 42, 0.4) 0%, transparent 70%);
+    top: 30%;
+    right: 20%;
+    animation: orb-drift-3 28s ease-in-out infinite;
+  }
+
+  @keyframes orb-drift-1 {
+    0%, 100% { transform: translate(0, 0);        opacity: 0.35; }
+    50%       { transform: translate(40px, 30px);  opacity: 0.5;  }
+  }
+
+  @keyframes orb-drift-2 {
+    0%, 100% { transform: translate(0, 0);         opacity: 0.3;  }
+    50%       { transform: translate(-30px, -20px); opacity: 0.45; }
+  }
+
+  @keyframes orb-drift-3 {
+    0%, 100% { transform: translate(0, 0);        opacity: 0.25; }
+    50%       { transform: translate(20px, -25px); opacity: 0.4;  }
+  }
 }
 
 @layer utilities {
