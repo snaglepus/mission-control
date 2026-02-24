@@ -39,11 +39,11 @@ export default function MissionControl() {
     <div className="min-h-screen flex">
       {/* Sidebar */}
       <aside 
-        className={`${sidebarOpen ? "w-64" : "w-20"} bg-[#0f172a]/80 backdrop-blur-xl border-r border-indigo-500/10 transition-all duration-300 flex flex-col`}
+        className={`${sidebarOpen ? "w-64" : "w-20"} bg-[#1a0f00]/80 backdrop-blur-xl border-r border-amber-500/10 transition-all duration-300 flex flex-col`}
       >
         {/* Logo */}
-        <div className="h-20 flex items-center px-6 border-b border-indigo-500/10">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center glow-cyan">
+        <div className="h-20 flex items-center px-6 border-b border-amber-500/10">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center glow-cyan">
             <Zap className="w-5 h-5 text-white" />
           </div>
           {sidebarOpen && (
@@ -62,20 +62,20 @@ export default function MissionControl() {
                 onClick={() => setActiveView(tool.id)}
                 className={`w-full flex items-center px-4 py-3.5 rounded-xl transition-all duration-300 sidebar-item group ${
                   isActive
-                    ? "bg-gradient-to-r from-cyan-500/20 to-purple-600/20 text-cyan-400"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                    ? "bg-gradient-to-r from-amber-500/20 to-orange-600/20 text-amber-400"
+                    : "text-slate-400 hover:text-amber-300 hover:bg-amber-500/5"
                 }`}
               >
                 <div className={`p-2 rounded-lg transition-all ${
-                  isActive ? "bg-cyan-500/20" : "group-hover:bg-white/10"
+                  isActive ? "bg-amber-500/20" : "group-hover:bg-white/10"
                 }`}>
-                  <Icon className={`w-5 h-5 ${isActive ? "text-cyan-400" : ""}`} />
+                  <Icon className={`w-5 h-5 ${isActive ? "text-amber-400" : ""}`} />
                 </div>
                 {sidebarOpen && (
                   <span className="ml-3 font-medium">{tool.name}</span>
                 )}
                 {isActive && sidebarOpen && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 glow-cyan" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400 glow-cyan" />
                 )}
               </button>
             );
@@ -83,7 +83,7 @@ export default function MissionControl() {
         </nav>
 
         {/* Bottom Actions */}
-        <div className="p-4 border-t border-indigo-500/10">
+        <div className="p-4 border-t border-amber-500/10">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="w-full flex items-center justify-center p-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-slate-200 transition-all"
@@ -96,31 +96,31 @@ export default function MissionControl() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Header */}
-        <header className="h-20 bg-[#0f172a]/60 backdrop-blur-xl border-b border-indigo-500/10 flex items-center justify-between px-8">
+        <header className="h-20 bg-[#1a0f00]/60 backdrop-blur-xl border-b border-amber-500/10 flex items-center justify-between px-8">
           <div className="flex items-center flex-1 max-w-xl">
             <div className="relative w-full">
               <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search clients, meetings, tasks..."
-                className="w-full bg-slate-900/50 border border-indigo-500/20 rounded-xl pl-12 pr-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+                className="w-full bg-[#1a0f00]/50 border border-amber-500/20 rounded-xl pl-12 pr-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all"
               />
             </div>
           </div>
           <div className="flex items-center space-x-4">
             <button className="relative p-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-slate-200 transition-all">
               <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full animate-pulse" />
             </button>
             <button className="p-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-slate-200 transition-all">
               <Settings className="w-5 h-5" />
             </button>
-            <div className="flex items-center space-x-3 pl-4 border-l border-indigo-500/20">
+            <div className="flex items-center space-x-3 pl-4 border-l border-amber-500/20">
               <div className="text-right">
                 <p className="text-sm font-medium text-slate-200">Robbie</p>
                 <p className="text-xs text-slate-500">Online</p>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white glow-cyan">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-sm font-bold text-white glow-cyan">
                 RJ
               </div>
             </div>
@@ -147,24 +147,24 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       value: "6", 
       change: "+2 this month", 
       icon: Users,
-      gradient: "from-cyan-500 to-cyan-600",
-      glow: "shadow-cyan-500/30"
+      gradient: "from-amber-400 to-amber-600",
+      glow: "shadow-amber-500/30"
     },
     { 
       label: "Weekly Revenue", 
       value: "$18.5k", 
       change: "+12% vs last week", 
       icon: TrendingUp,
-      gradient: "from-purple-500 to-pink-500",
-      glow: "shadow-purple-500/30"
+      gradient: "from-orange-400 to-orange-600",
+      glow: "shadow-orange-500/30"
     },
     { 
       label: "Meetings This Week", 
       value: "12", 
       change: "8 action items", 
       icon: Calendar,
-      gradient: "from-emerald-500 to-teal-500",
-      glow: "shadow-emerald-500/30"
+      gradient: "from-yellow-400 to-amber-500",
+      glow: "shadow-yellow-500/30"
     },
     { 
       label: "Olivia Tasks", 
@@ -182,14 +182,14 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       description: "View all clients and their status", 
       view: "clients" as ToolView, 
       icon: Users,
-      color: "cyan"
+      color: "amber"
     },
-    { 
-      name: "Meeting Intel", 
-      description: "Recent meetings and action items", 
-      view: "meetings" as ToolView, 
+    {
+      name: "Meeting Intel",
+      description: "Recent meetings and action items",
+      view: "meetings" as ToolView,
       icon: Calendar,
-      color: "purple"
+      color: "orange"
     },
     { 
       name: "Task Control", 
@@ -225,7 +225,7 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
                 </button>
               </div>
               <p className="text-slate-400 text-sm mb-1">{stat.label}</p>
-              <p className="text-3xl font-bold text-white mb-2">{stat.value}</p>
+              <p className="text-3xl font-bold text-white mb-2 text-glow">{stat.value}</p>
               <div className="flex items-center text-sm">
                 <ArrowUpRight className="w-4 h-4 text-emerald-400 mr-1" />
                 <span className="text-emerald-400">{stat.change}</span>
@@ -242,8 +242,8 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
           {quickActions.map((action, idx) => {
             const Icon = action.icon;
             const colorMap: Record<string, string> = {
-              cyan: "from-cyan-500 to-cyan-600 shadow-cyan-500/30",
-              purple: "from-purple-500 to-purple-600 shadow-purple-500/30",
+              amber: "from-amber-400 to-amber-600 shadow-amber-500/30",
+              orange: "from-orange-400 to-orange-600 shadow-orange-500/30",
               emerald: "from-emerald-500 to-emerald-600 shadow-emerald-500/30",
             };
             return (
@@ -257,7 +257,7 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-1">{action.name}</h3>
                 <p className="text-slate-400 text-sm">{action.description}</p>
-                <div className="mt-4 flex items-center text-cyan-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="mt-4 flex items-center text-amber-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                   <span>Access</span>
                   <ArrowUpRight className="w-4 h-4 ml-1" />
                 </div>
@@ -271,25 +271,24 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       <div className="glass-card p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-white flex items-center">
-            <Clock className="w-5 h-5 mr-2 text-cyan-400" />
+            <Clock className="w-5 h-5 mr-2 text-amber-400" />
             Recent Activity
           </h2>
-          <button className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors">
+          <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors">
             View All
           </button>
         </div>
         <div className="space-y-4">
           {[
-            { time: "2 hours ago", event: "Meeting with CoverMore - IT Strategy Review", type: "meeting", color: "cyan" },
+            { time: "2 hours ago", event: "Meeting with CoverMore - IT Strategy Review", type: "meeting", color: "amber" },
             { time: "4 hours ago", event: "Olivia completed: Restaurant API Research", type: "task", color: "amber" },
-            { time: "Yesterday", event: "New deliverable: Guide Dogs Board Paper v2", type: "deliverable", color: "purple" },
+            { time: "Yesterday", event: "New deliverable: Guide Dogs Board Paper v2", type: "deliverable", color: "orange" },
             { time: "Yesterday", event: "Fireflies sync: 3 meetings processed", type: "sync", color: "emerald" },
           ].map((item, idx) => (
-            <div key={idx} className="flex items-center space-x-4 py-4 border-b border-indigo-500/10 last:border-0">
+            <div key={idx} className="flex items-center space-x-4 py-4 border-b border-amber-500/10 last:border-0">
               <div className={`w-2 h-2 rounded-full ${
-                item.color === "cyan" ? "bg-cyan-400" :
                 item.color === "amber" ? "bg-amber-400" :
-                item.color === "purple" ? "bg-purple-400" :
+                item.color === "orange" ? "bg-orange-400" :
                 "bg-emerald-400"
               }`} />
               <div className="flex-1">
@@ -297,9 +296,9 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
                 <p className="text-sm text-slate-500">{item.time}</p>
               </div>
               <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                item.type === "meeting" ? "bg-cyan-500/20 text-cyan-400" :
+                item.type === "meeting" ? "bg-amber-500/20 text-amber-400" :
                 item.type === "task" ? "bg-amber-500/20 text-amber-400" :
-                item.type === "deliverable" ? "bg-purple-500/20 text-purple-400" :
+                item.type === "deliverable" ? "bg-orange-500/20 text-orange-400" :
                 "bg-emerald-500/20 text-emerald-400"
               }`}>
                 {item.type}
