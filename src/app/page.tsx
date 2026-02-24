@@ -43,7 +43,7 @@ export default function MissionControl() {
       >
         {/* Logo */}
         <div className="h-20 flex items-center px-6 border-b border-amber-500/10">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center glow-cyan">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center glow-warm">
             <Zap className="w-5 h-5 text-white" />
           </div>
           {sidebarOpen && (
@@ -75,7 +75,7 @@ export default function MissionControl() {
                   <span className="ml-3 font-medium">{tool.name}</span>
                 )}
                 {isActive && sidebarOpen && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400 glow-cyan" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400 glow-warm" />
                 )}
               </button>
             );
@@ -120,7 +120,7 @@ export default function MissionControl() {
                 <p className="text-sm font-medium text-slate-200">Robbie</p>
                 <p className="text-xs text-slate-500">Online</p>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-sm font-bold text-white glow-cyan">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-sm font-bold text-white glow-warm">
                 RJ
               </div>
             </div>
