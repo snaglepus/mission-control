@@ -43,6 +43,7 @@ Progress: [█████████░] ~92%
 | Phase 05-sidebar-and-polish P01 | ~25 | 3 tasks | 2 files |
 | Phase 05-sidebar-and-polish P02 | ~5 | 2 tasks | 0 files |
 | Phase 06-fix-incomplete-design-changes-header-and-nav P01 | 3 | 2 tasks | 1 files |
+| Phase 06 P02 | 4 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,7 @@ Recent decisions affecting current work:
 - [Phase 06-fix-incomplete-design-changes-header-and-nav]: Drawer panel uses bg-[#1a0f00]/95 opacity instead of backdrop-filter to avoid iOS Safari compositing issues with stacked backdrop-filter elements
 - [Phase 06-fix-incomplete-design-changes-header-and-nav]: Stats grid uses grid-cols-2 on mobile (not grid-cols-1) to maximize screen real estate per user preference
 - [Phase 06-fix-incomplete-design-changes-header-and-nav]: Bell and settings icons moved from mobile header into hamburger drawer at bottom
+- [Phase 06]: Used sm: (640px) as single mobile breakpoint for all three view components — consistent with Plan 01 approach
 
 ### Pending Todos
 
