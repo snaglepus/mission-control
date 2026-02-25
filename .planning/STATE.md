@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** The dashboard must remain fully functional while transforming the visual identity to warm amber/gold glassmorphism
-**Current focus:** Phase 5 — Sidebar
+**Current focus:** Phase 6 — Fix incomplete design changes (header and nav)
 
 ## Current Position
 
-Phase: 5 of 6 (Sidebar and Polish) — Plan 2 of 2 COMPLETE
-Plan: 2 of 2 complete in phase 05
-Status: Phase 05 fully complete — verification plan passed, user approved all 18 visual verification points; advancing to Phase 6
-Last activity: 2026-02-25 — Phase 5 Plan 02 complete (verification-only plan, automated checks passed, user visual approval obtained)
+Phase: 6 of 6 (Mobile Responsive Layout) — Plan 1 of 1 IN PROGRESS (paused at checkpoint:human-verify)
+Plan: 1 of 1 — Tasks 1 and 2 complete, awaiting visual approval at Task 3 checkpoint
+Status: Phase 06 Plan 01 paused at checkpoint:human-verify — 2 auto tasks complete, user must visually verify mobile layout at 390px before plan considered done
+Last activity: 2026-02-25 — Phase 6 Plan 01 tasks 1 & 2 complete (sidebar drawer, compressed header, responsive dashboard overview)
 
-Progress: [█████████░] ~90%
+Progress: [█████████░] ~92%
 
 ## Performance Metrics
 
@@ -42,6 +42,7 @@ Progress: [█████████░] ~90%
 | Phase 04-view-components P02 | 5 | 2 tasks | 0 files |
 | Phase 05-sidebar-and-polish P01 | ~25 | 3 tasks | 2 files |
 | Phase 05-sidebar-and-polish P02 | ~5 | 2 tasks | 0 files |
+| Phase 06-fix-incomplete-design-changes-header-and-nav P01 | 3 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,9 @@ Recent decisions affecting current work:
 - [05-01]: Sidebar bg opacity reduced 80% -> 40% so sunset background shows through the frosted panel
 - [05-01]: Ambient orb opacity values boosted ~50-60% above plan defaults for visible atmospheric depth against background image
 - [05-01]: body::before/::after stacking: image z-index:-2, darken overlay z-index:-1, orbs z-index:0, content z-index:1
+- [Phase 06-fix-incomplete-design-changes-header-and-nav]: Drawer panel uses bg-[#1a0f00]/95 opacity instead of backdrop-filter to avoid iOS Safari compositing issues with stacked backdrop-filter elements
+- [Phase 06-fix-incomplete-design-changes-header-and-nav]: Stats grid uses grid-cols-2 on mobile (not grid-cols-1) to maximize screen real estate per user preference
+- [Phase 06-fix-incomplete-design-changes-header-and-nav]: Bell and settings icons moved from mobile header into hamburger drawer at bottom
 
 ### Pending Todos
 
@@ -93,5 +97,5 @@ None — Phase 1 foundation concerns (near-black background, backdrop-filter vis
 ## Session Continuity
 
 Last session: 2026-02-25
-Stopped at: Completed 05-02-PLAN.md (Phase 5 Plan 2 — verification plan, all automated checks passed, user approved all 18 visual points)
-Resume file: .planning/phases/05-sidebar-and-polish/05-02-SUMMARY.md
+Stopped at: Paused at 06-01-PLAN.md Task 3 checkpoint:human-verify (tasks 1 & 2 complete, awaiting user visual approval of mobile layout at 390px width)
+Resume file: .planning/phases/06-fix-incomplete-design-changes-header-and-nav/06-01-SUMMARY.md
