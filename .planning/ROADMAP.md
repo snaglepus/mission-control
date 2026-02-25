@@ -14,7 +14,7 @@ A targeted visual reskin of the Mission Control dashboard from cool neon (cyan/p
 - [x] **Phase 2: Glass Card System** - Update shared glassmorphism CSS classes to warm amber tints, borders, and glow effects (completed 2026-02-24)
 - [x] **Phase 3: Typography & Page Frame** - Replace gradient text and all inline cool-color classes in page.tsx (header, dashboard overview) (completed 2026-02-25)
 - [x] **Phase 4: View Components** - Replace all cool-color inline classes in ClientCommandCenter, MeetingIntelligence, and TaskMissionControl (completed 2026-02-25)
-- [ ] **Phase 5: Sidebar & Polish** - Restructure sidebar to slim icon-above-label format and apply warm active states and logo orb
+- [x] **Phase 5: Sidebar & Polish** - Restructure sidebar to slim icon-above-label format and apply warm active states and logo orb (completed 2026-02-25)
 
 ## Phase Details
 
@@ -86,11 +86,10 @@ Plans:
   2. The active sidebar item shows an amber/orange gradient background and indicator bar instead of indigo
   3. The logo orb uses an amber-to-orange gradient with warm glow instead of cool colors
   4. A sunset ocean background image is visible behind glass panels with a darken overlay, and ambient orbs float on top
-**Plans:** 2 plans
+**Plans:** 1/1 plans complete (05-02 merged into 05-01 at execution; visual verification done at Task 3 checkpoint)
 
 Plans:
-- [ ] 05-01-PLAN.md — Background image CSS, sidebar restructure to slim icon-above-label layout, logo orb pulse animation
-- [ ] 05-02-PLAN.md — Automated cleanup verification and final visual checkpoint
+- [x] 05-01-PLAN.md — Background image CSS, sidebar restructure to slim icon-above-label layout, logo orb pulse animation (includes visual verification at Task 3 human-verify checkpoint)
 
 ## Progress
 
@@ -103,7 +102,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Glass Card System | 1/1 | Complete   | 2026-02-24 |
 | 3. Typography & Page Frame | 1/1 | Complete   | 2026-02-25 |
 | 4. View Components | 2/2 | Complete   | 2026-02-25 |
-| 5. Sidebar & Polish | 0/TBD | Not started | - |
+| 5. Sidebar & Polish | 1/1 | Complete | 2026-02-25 |
 
 ### Phase 6: Fix incomplete design changes - header and nav
 

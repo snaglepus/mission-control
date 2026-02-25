@@ -31,9 +31,9 @@ Requirements for the warm glassmorphism redesign. Each maps to roadmap phases.
 
 ### Sidebar & Navigation
 
-- [ ] **SIDE-01**: Sidebar active state uses amber/orange gradient colors and indicator bar
-- [ ] **SIDE-02**: Logo orb uses amber-to-orange gradient with warm glow
-- [ ] **SIDE-03**: Sidebar restructured to slim icon-above-label format with centered layout
+- [x] **SIDE-01**: Sidebar active state uses amber/orange gradient colors and indicator bar
+- [x] **SIDE-02**: Logo orb uses amber-to-orange gradient with warm glow
+- [x] **SIDE-03**: Sidebar restructured to slim icon-above-label format with centered layout
 
 ### View Components
 
@@ -87,9 +87,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TYPO-02 | Phase 3 | Complete |
 | TYPO-03 | Phase 3 | Complete |
 | TYPO-04 | Phase 3 | Complete |
-| SIDE-01 | Phase 5 | Pending |
-| SIDE-02 | Phase 5 | Pending |
-| SIDE-03 | Phase 5 | Pending |
+| SIDE-01 | Phase 5 | Complete |
+| SIDE-02 | Phase 5 | Complete |
+| SIDE-03 | Phase 5 | Complete |
 | COMP-01 | Phase 4 | Complete |
 | COMP-02 | Phase 4 | Complete |
 | COMP-03 | Phase 4 | Complete |

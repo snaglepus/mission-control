@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 
 ## Current Position
 
-Phase: 4 of 5 (View Components) — COMPLETE
-Plan: 2 of 2 complete in phase 04
-Status: Phase 04 fully complete — both plans executed and visually approved; advancing to Phase 5
-Last activity: 2026-02-25 — Phase 4 Plan 02 complete (visual verification of all three warm view components — user approved)
+Phase: 5 of 6 (Sidebar and Polish) — Plan 1 of 1 COMPLETE
+Plan: 1 of 1 complete in phase 05
+Status: Phase 05 Plan 01 fully complete — slim sidebar, sunset background image, logo orb, all visually approved; advancing to Phase 6
+Last activity: 2026-02-25 — Phase 5 Plan 01 complete (slim icon-above-label sidebar with sunset background image, user approved adjustments)
 
-Progress: [███████░░░] ~70%
+Progress: [████████░░] ~85%
 
 ## Performance Metrics
 
@@ -32,14 +32,15 @@ Progress: [███████░░░] ~70%
 | 03-typography-page-frame | 1 | ~15 min | ~15 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (~5 min), 02-01 (~2 min), 03-01 (~15 min), 04-01 (~4 min), 04-02 (~5 min)
-- Trend: Fast execution on Tailwind class substitution; verification plans light (~5 min)
+- Last 5 plans: 02-01 (~2 min), 03-01 (~15 min), 04-01 (~4 min), 04-02 (~5 min), 05-01 (~25 min)
+- Trend: Human-verify checkpoint plans take longer due to user feedback loop; auto plans remain fast
 
 *Updated after each plan completion*
 | Phase 02-glass-card-system P01 | 5 | 3 tasks | 1 files |
 | Phase 03-typography-page-frame P01 | ~15 | 3 tasks | 2 files |
 | Phase 04-view-components P01 | 4 | 3 tasks | 3 files |
 | Phase 04-view-components P02 | 5 | 2 tasks | 0 files |
+| Phase 05-sidebar-and-polish P01 | ~25 | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - [Phase 04-view-components]: P3 priority uses lighter amber-400/amber-500 to distinguish from P2 amber-500/orange-500
 - [Phase 04-view-components]: AI-related elements use orange-400 secondary accent consistently; COMP-05 confirmed not applicable (no Recharts)
 - [04-02]: User visually approved all three warm view components on 2026-02-25 — no cool-color flashes, semantic status colors preserved, two-tone accent system cohesive
+- [05-01]: Sidebar bg opacity reduced 80% -> 40% so sunset background shows through the frosted panel
+- [05-01]: Ambient orb opacity values boosted ~50-60% above plan defaults for visible atmospheric depth against background image
+- [05-01]: body::before/::after stacking: image z-index:-2, darken overlay z-index:-1, orbs z-index:0, content z-index:1
 
 ### Pending Todos
 
@@ -88,5 +92,5 @@ None — Phase 1 foundation concerns (near-black background, backdrop-filter vis
 ## Session Continuity
 
 Last session: 2026-02-25
-Stopped at: Completed 04-02-PLAN.md (Phase 4 Plan 2 — visual verification of all three warm view components, user approved)
-Resume file: .planning/phases/04-view-components/04-02-SUMMARY.md
+Stopped at: Completed 05-01-PLAN.md (Phase 5 Plan 1 — slim sidebar, sunset background image, logo orb, user approved adjustments)
+Resume file: .planning/phases/05-sidebar-and-polish/05-01-SUMMARY.md
