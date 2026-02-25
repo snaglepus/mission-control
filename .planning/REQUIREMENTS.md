@@ -43,6 +43,14 @@ Requirements for the warm glassmorphism redesign. Each maps to roadmap phases.
 - [x] **COMP-04**: Status indicators preserve semantic green/red while surrounding UI uses warm palette
 - [x] **COMP-05**: Recharts chart fills and strokes updated to amber/orange/gold warm colors
 
+### Mobile Responsiveness
+
+- [x] **MOBILE-01**: Sidebar converts to a full-screen hamburger drawer overlay below 640px (sm breakpoint) with all 4 nav items plus bell and settings icons
+- [x] **MOBILE-02**: Header compresses on mobile to show hamburger icon, logo orb, compact search, and avatar only (no name/status, no bell/settings)
+- [x] **MOBILE-03**: Dashboard stats grid displays in 2-column layout on mobile with reduced padding and font sizes
+- [x] **MOBILE-04**: Main content padding, welcome heading, and section spacing reduce on mobile (p-4, text-2xl, space-y-6)
+- [x] **MOBILE-05**: All three view components (ClientCommandCenter, MeetingIntelligence, TaskMissionControl) are responsive with 2-column stat grids, wrapping filter bars, and stacking content layouts on mobile
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
@@ -65,7 +73,7 @@ Explicitly excluded. Documented to prevent scope creep.
 | Glassmorphism on search input | Stacked backdrop-filters cause performance issues |
 | New features or views | This is styling only — no functional changes |
 | Tech stack changes | Keeping Next.js, Tailwind, Lucide, Recharts |
-| Mobile-specific redesign | Maintain existing responsive behavior |
+| Mobile-specific redesign beyond 640px breakpoint | Phase 6 addressed sm breakpoint; tablet/large-mobile specific breakpoints not in scope |
 | Replacing semantic green/red status colors | Destroys meaning — status must communicate at a glance |
 
 ## Traceability
@@ -95,12 +103,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-03 | Phase 4 | Complete |
 | COMP-04 | Phase 4 | Complete |
 | COMP-05 | Phase 4 | Complete |
+| MOBILE-01 | Phase 6 | Complete |
+| MOBILE-02 | Phase 6 | Complete |
+| MOBILE-03 | Phase 6 | Complete |
+| MOBILE-04 | Phase 6 | Complete |
+| MOBILE-05 | Phase 6 | Complete |
 
 **Coverage:**
-- v1 requirements: 21 total
-- Mapped to phases: 21
+- v1 requirements: 26 total
+- Mapped to phases: 26
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-24*
-*Last updated: 2026-02-24 after roadmap creation — traceability complete*
+*Last updated: 2026-02-25 — added MOBILE-01..05 definitions and traceability for Phase 6*
