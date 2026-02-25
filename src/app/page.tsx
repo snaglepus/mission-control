@@ -35,7 +35,7 @@ export default function MissionControl() {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <aside className="w-20 bg-[#1a0f00]/80 backdrop-blur-xl border-r border-amber-500/10 flex flex-col">
+      <aside className="w-20 bg-[#1a0f00]/40 backdrop-blur-xl border-r border-amber-500/10 flex flex-col">
         {/* Logo */}
         <div className="h-20 flex items-center justify-center border-b border-amber-500/10">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center logo-orb">
