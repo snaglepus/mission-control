@@ -78,15 +78,19 @@ Plans:
 - [x] 04-02-PLAN.md — Cross-file grep verification and visual checkpoint
 
 ### Phase 5: Sidebar & Polish
-**Goal**: The sidebar is restructured to slim icon-above-label format with warm active states and logo orb, and ambient background orbs add atmospheric depth to the glassmorphism effect
+**Goal**: The sidebar is restructured to slim icon-above-label format with warm active states and logo orb, a sunset ocean background image adds atmospheric depth behind glassmorphism panels, and ambient orbs layer on top for warm depth
 **Depends on**: Phase 4
 **Requirements**: SIDE-01, SIDE-02, SIDE-03
 **Success Criteria** (what must be TRUE):
   1. The sidebar displays icons centered above small text labels — not side-by-side — and all four navigation items are readable without truncation
   2. The active sidebar item shows an amber/orange gradient background and indicator bar instead of indigo
   3. The logo orb uses an amber-to-orange gradient with warm glow instead of cool colors
-  4. Two or three ambient radial gradient orbs are visible in the background behind UI panels, adding depth to the glass effect
-**Plans**: TBD
+  4. A sunset ocean background image is visible behind glass panels with a darken overlay, and ambient orbs float on top
+**Plans:** 2 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Background image CSS, sidebar restructure to slim icon-above-label layout, logo orb pulse animation
+- [ ] 05-02-PLAN.md — Automated cleanup verification and final visual checkpoint
 
 ## Progress
 
