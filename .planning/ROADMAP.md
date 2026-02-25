@@ -86,7 +86,7 @@ Plans:
   2. The active sidebar item shows an amber/orange gradient background and indicator bar instead of indigo
   3. The logo orb uses an amber-to-orange gradient with warm glow instead of cool colors
   4. A sunset ocean background image is visible behind glass panels with a darken overlay, and ambient orbs float on top
-**Plans:** 1/1 plans complete (05-02 merged into 05-01 at execution; visual verification done at Task 3 checkpoint)
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 05-01-PLAN.md — Background image CSS, sidebar restructure to slim icon-above-label layout, logo orb pulse animation (includes visual verification at Task 3 human-verify checkpoint)
@@ -102,7 +102,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Glass Card System | 1/1 | Complete   | 2026-02-24 |
 | 3. Typography & Page Frame | 1/1 | Complete   | 2026-02-25 |
 | 4. View Components | 2/2 | Complete   | 2026-02-25 |
-| 5. Sidebar & Polish | 1/1 | Complete | 2026-02-25 |
+| 5. Sidebar & Polish | 2/2 | Complete   | 2026-02-25 |
 
 ### Phase 6: Fix incomplete design changes - header and nav
 
