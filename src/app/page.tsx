@@ -266,31 +266,31 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Welcome Section */}
       <div>
-        <h1 className="text-4xl font-bold text-white mb-2">
+        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2">
           Welcome back, <span className="gradient-text">Robbie</span>
         </h1>
-        <p className="text-slate-400 text-lg">Here&apos;s your mission overview for today.</p>
+        <p className="text-slate-400 text-base sm:text-lg">Here&apos;s your mission overview for today.</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
-            <div key={idx} className="glass-card p-6 hover-lift">
+            <div key={idx} className="glass-card p-4 sm:p-6 hover-lift">
               <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg ${stat.glow}`}>
-                  <Icon className="w-6 h-6 text-white" />
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg ${stat.glow}`}>
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <button className="text-slate-500 hover:text-slate-300">
                   <MoreHorizontal className="w-5 h-5" />
                 </button>
               </div>
               <p className="text-slate-400 text-sm mb-1">{stat.label}</p>
-              <p className="text-3xl font-bold text-white mb-2 text-glow">{stat.value}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-white mb-2 text-glow">{stat.value}</p>
               <div className="flex items-center text-sm">
                 <ArrowUpRight className="w-4 h-4 text-emerald-400 mr-1" />
                 <span className="text-emerald-400">{stat.change}</span>
@@ -303,7 +303,7 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       {/* Quick Actions */}
       <div>
         <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {quickActions.map((action, idx) => {
             const Icon = action.icon;
             const colorMap: Record<string, string> = {
@@ -315,10 +315,10 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
               <button
                 key={idx}
                 onClick={() => setActiveView(action.view)}
-                className="glass-card p-6 text-left hover-lift group"
+                className="glass-card p-4 sm:p-6 text-left hover-lift group"
               >
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${colorMap[action.color]} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                  <Icon className="w-7 h-7 text-white" />
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${colorMap[action.color]} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-1">{action.name}</h3>
                 <p className="text-slate-400 text-sm">{action.description}</p>
@@ -333,8 +333,8 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       </div>
 
       {/* Recent Activity */}
-      <div className="glass-card p-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="glass-card p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h2 className="text-xl font-semibold text-white flex items-center">
             <Clock className="w-5 h-5 mr-2 text-amber-400" />
             Recent Activity
