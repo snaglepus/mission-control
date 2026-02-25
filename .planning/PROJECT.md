@@ -1,80 +1,85 @@
-# Mission Control — UI Redesign
+# Mission Control — Personal Consulting Dashboard
 
 ## What This Is
 
-A visual redesign of the Mission Control consulting dashboard, shifting from a cool neon/indigo glassmorphism aesthetic to a warm amber/gold/copper glassmorphism theme. The app is a personal command center for managing consulting clients, meetings (Fireflies), and tasks (Todoist). This redesign preserves all existing functionality while transforming the visual identity to match a warm, luxurious aesthetic inspired by premium smart home interfaces.
+A personal command center for managing consulting clients, meetings (via Fireflies API), and tasks (via Todoist API). Features a warm amber/gold/copper glassmorphism UI with sunset ocean background, responsive mobile layout, and real-time data sync. Built with Next.js 14 App Router, TypeScript, and Tailwind CSS.
 
 ## Core Value
 
-The dashboard must remain fully functional and usable — every view, modal, filter, and real-time data feed must work exactly as before, just wrapped in a warm amber glassmorphism skin.
+The dashboard must remain fully functional and usable — every view, filter, and real-time data feed must work correctly, wrapped in a warm amber glassmorphism aesthetic.
 
 ## Requirements
 
 ### Validated
 
-<!-- Existing capabilities confirmed from codebase -->
-
+- ✓ Warm CSS custom property token system (amber, gold, copper, orange) — v1.0
+- ✓ Dark brown/amber background gradient with sunset ocean image — v1.0
+- ✓ Saturated glass card backdrop-filter with warm amber tints — v1.0
+- ✓ Ambient radial gradient orbs with drift animations — v1.0
+- ✓ Glass card system with inset gold hairline, amber hover halo, warm hover-lift — v1.0
+- ✓ Gradient text headings in amber/gold/copper spectrum — v1.0
+- ✓ All ~105 inline cool-color Tailwind classes replaced across page frame and 3 view components — v1.0
+- ✓ Semantic green/red status indicators preserved alongside warm palette — v1.0
+- ✓ Slim icon-above-label sidebar with breathing logo orb pulse — v1.0
+- ✓ Mobile hamburger drawer, compressed header, responsive grids at 640px breakpoint — v1.0
 - ✓ Dashboard overview with stats grid, quick actions, and recent activity — existing
 - ✓ Client Command Center with filters, client grid, and detail modals — existing
-- ✓ Meeting Intelligence with real-time Fireflies sync, stats, filters, and detail modals — existing
-- ✓ Task Mission Control with real-time Todoist sync, workload overview, and task management — existing
+- ✓ Meeting Intelligence with real-time Fireflies sync — existing
+- ✓ Task Mission Control with real-time Todoist sync — existing
 - ✓ Sidebar navigation between 4 views — existing
 - ✓ Header with search, notifications, settings, and user profile — existing
 - ✓ Real-time polling (30s) for meetings and tasks — existing
 - ✓ HTTP Basic Auth middleware — existing
-- ✓ Responsive grid layouts — existing
 
 ### Active
 
-<!-- UI redesign scope -->
-
-- [ ] Replace cool neon color palette (cyan/purple/pink) with warm amber/gold/copper spectrum
-- [ ] Shift background from navy-indigo gradient to warm dark brown/amber gradient
-- [ ] Restyle glassmorphism cards with warm-tinted transparency and gold/amber borders
-- [ ] Redesign sidebar to slim icon + label format (icons above small labels)
-- [ ] Replace all accent colors with warm equivalents (amber toggles, gold highlights, copper accents)
-- [ ] Update status indicator colors to warm-toned variants while preserving semantic meaning
-- [ ] Restyle typography gradients and text colors to warm palette
-- [ ] Update hover/glow effects from cyan/purple to amber/gold
-- [ ] Restyle modals, badges, buttons, and interactive elements to warm theme
-- [ ] Maintain all existing responsive breakpoints and grid layouts
-- [ ] Use the frontend-design skill for implementation quality
+(None — next milestone not yet planned)
 
 ### Out of Scope
 
-- Adding new features or views — this is styling only
-- Changing the data layer, API routes, or hooks — purely presentational
-- Replacing the tech stack (keeping Next.js, Tailwind, Lucide, Recharts)
-- Photo backgrounds or image-based wallpapers — gradient only
-- Changing the bento/grid card layout structure — keep current layouts
-- Mobile-specific redesign — maintain existing responsive behavior
+- Photo/video background — performance cost, degrades glassmorphism readability
+- Animated background gradient — GPU idle prevention issues, battery drain
+- Blur above 15px — exponentially GPU-expensive, 12px is optimal
+- Mouse-tracking glow effect — hundreds of repaints/sec at dashboard scale
+- Glassmorphism on search input — stacked backdrop-filters cause performance issues
+- Mobile-specific redesign beyond 640px breakpoint — Phase 6 delivered sm breakpoint; tablet breakpoints not in scope
+- Replacing semantic green/red status colors — destroys meaning
+- Adding new features or views — styling only in v1.0
+- Changing data layer, API routes, or hooks — purely presentational in v1.0
+- CSS animated gradient border on active sidebar item (deferred to v2 as ANIM-01)
+- Gold shimmer sweep on quick action CTA hover (deferred to v2 as ANIM-02)
 
 ## Context
 
-- **Current design:** Dark navy glassmorphism with cyan/purple/pink neon accents
-- **Target design:** Warm amber/gold/copper glassmorphism inspired by premium smart home UI
-- **Inspiration:** Luxurious smart home dashboard with translucent cards, warm amber toggles, gold-tinted borders, and a cozy sophisticated feel
-- **Tech stack:** Next.js 14 App Router, TypeScript, Tailwind CSS 3.3, Lucide React, Recharts
-- **Styling:** All styles in `globals.css` (CSS variables + Tailwind @layer components) and inline Tailwind classes in components
-- **Key files to modify:** `globals.css`, `page.tsx`, `ClientCommandCenter.tsx`, `MeetingIntelligence.tsx`, `TaskMissionControl.tsx`
-
-## Constraints
-
-- **Tech stack**: Must use existing Tailwind CSS — no new CSS framework or styled-components
-- **Functionality**: Zero regression — all features must work identically after redesign
-- **Layout**: Keep current grid structures — only restyle, don't restructure card layouts
-- **Sidebar**: Change to slim icon + label format but keep same navigation items
-- **Colors**: Fully warm palette — no cool blues/purples remaining in the final design
+- **Shipped:** v1.0 Warm Amber/Gold Glassmorphism Redesign (2026-02-25)
+- **Codebase:** 2,227 LOC TypeScript/CSS across ~10 source files
+- **Tech stack:** Next.js 14 App Router, TypeScript, Tailwind CSS 3.3, Lucide React, Recharts (installed, unused)
+- **Key files:** `globals.css` (tokens + component classes), `page.tsx` (main layout), 3 view components, 2 API routes
+- **Styling approach:** CSS custom properties in `:root` + Tailwind `@layer components` in globals.css + inline Tailwind classes
+- **Known tech debt:** Recharts installed but unused (warm palette must be applied if charts are added)
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Warm gradient background (no photo) | Cleaner, faster loading, easier to maintain | — Pending |
-| Icon + label sidebar (not icon-only) | Preserves discoverability while slimming down | — Pending |
-| All warm tone accents | Cohesive warm aesthetic, no cool/warm clash | — Pending |
-| Keep current grid layouts | Minimize structural changes, focus on visual quality | — Pending |
-| Use frontend-design skill | Ensures high design quality in implementation | — Pending |
+| Dependency-ordered phases (tokens → classes → page → views → sidebar → mobile) | Each layer builds on previous; prevents rework | ✓ Good — zero regressions between phases |
+| Warm gradient background with sunset ocean image | Atmospheric depth without performance cost | ✓ Good — user approved, fast loading |
+| Icon-above-label sidebar (not icon-only) | Preserves discoverability while slimming down | ✓ Good — readable at w-20 |
+| All warm tone accents (no cool/warm mixing) | Cohesive aesthetic, no palette clash | ✓ Good — zero cool-color residuals confirmed by audit |
+| saturate(140%) for backdrop-filter | Rich glass bleed-through without oversaturation | ✓ Good |
+| --accent-gold (#f5a623) vs --warning (#E8720C) as distinct tokens | Prevent amber/warning collision | ✓ Good — visually distinct hues |
+| bg-[#1a0f00]/95 for drawer (not backdrop-filter) | Avoid iOS Safari compositing issues with stacked backdrop-filters | ✓ Good — works cross-browser |
+| grid-cols-2 on mobile (not grid-cols-1) | Maximize screen real estate | ✓ Good — user preference confirmed |
+| sm: (640px) as single mobile breakpoint | Consistent, simple responsive system | ✓ Good — clean breakpoint across all components |
+| MOBILE-01..05 backfilled as v1 requirements | Fully delivered by Phase 6, should be tracked | ✓ Good — 26/26 coverage |
+
+## Constraints
+
+- **Tech stack**: Must use existing Tailwind CSS — no new CSS framework
+- **Functionality**: Zero regression — all features work identically after redesign
+- **Layout**: Keep current grid structures — only restyle, don't restructure
+- **Colors**: Fully warm palette — no cool blues/purples remaining
+- **Performance**: GPU-composited animations only; no per-frame repaints
 
 ---
-*Last updated: 2026-02-24 after initialization*
+*Last updated: 2026-02-25 after v1.0 milestone*
