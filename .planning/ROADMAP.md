@@ -106,12 +106,14 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ### Phase 6: Fix incomplete design changes - header and nav
 
-**Goal:** [To be planned]
+**Goal:** The Mission Control dashboard is fully responsive for mobile devices — sidebar converts to a hamburger drawer, header compresses to essential elements, spacing/fonts tighten for mobile density, stats grids show 2 columns, and all view components work on narrow screens (640px breakpoint)
 **Depends on:** Phase 5
-**Plans:** 0 plans
+**Requirements:** MOBILE-01, MOBILE-02, MOBILE-03, MOBILE-04, MOBILE-05
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 6 to break down)
+- [ ] 06-01-PLAN.md — Sidebar-to-drawer conversion, header compression, dashboard overview responsive
+- [ ] 06-02-PLAN.md — All three view components (Clients, Meetings, Tasks) responsive for mobile
 
 ---
 *Roadmap created: 2026-02-24*
