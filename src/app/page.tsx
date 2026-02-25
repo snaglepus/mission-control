@@ -8,6 +8,7 @@ import {
   CheckSquare,
   TrendingUp,
   Settings,
+  Brain,
   Bell,
   Search,
   Zap,
@@ -21,8 +22,9 @@ import {
 import ClientCommandCenter from "./components/ClientCommandCenter";
 import MeetingIntelligence from "./components/MeetingIntelligence";
 import TaskMissionControl from "./components/TaskMissionControl";
+import MemoryMissionControl from "./components/MemoryMissionControl";
 
-type ToolView = "dashboard" | "clients" | "meetings" | "tasks";
+type ToolView = "dashboard" | "clients" | "meetings" | "tasks" | "memories";
 
 export default function MissionControl() {
   const [activeView, setActiveView] = useState<ToolView>("dashboard");
@@ -42,6 +44,7 @@ export default function MissionControl() {
     { id: "clients" as ToolView, name: "Clients", icon: Users },
     { id: "meetings" as ToolView, name: "Meetings", icon: Calendar },
     { id: "tasks" as ToolView, name: "Tasks", icon: CheckSquare },
+    { id: "memories" as ToolView, name: "Memories", icon: Brain },
   ];
 
   return (
@@ -142,6 +145,7 @@ export default function MissionControl() {
           {activeView === "clients" && <ClientCommandCenter />}
           {activeView === "meetings" && <MeetingIntelligence />}
           {activeView === "tasks" && <TaskMissionControl />}
+          {activeView === "memories" && <MemoryMissionControl />}
         </main>
       </div>
 
@@ -263,6 +267,13 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       icon: CheckSquare,
       color: "emerald"
     },
+    {
+      name: "Memory Browser",
+      description: "Search long-term and daily memory logs",
+      view: "memories" as ToolView,
+      icon: Brain,
+      color: "amber"
+    },
   ];
 
   return (
@@ -303,7 +314,7 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       {/* Quick Actions */}
       <div>
         <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
           {quickActions.map((action, idx) => {
             const Icon = action.icon;
             const colorMap: Record<string, string> = {

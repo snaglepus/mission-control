@@ -36,14 +36,34 @@ interface Task {
 
 export default function TaskMissionControl() {
   const { data, loading, error, lastUpdated, refresh } = useTodoistData();
-  const [filter, setFilter] = useState<"all" | "today" | "olivia" | "p1">("all");
+  const [filter, setFilter] = useState<"all" | "today" | "olivia" | "p1">("today");
   const [selectedProject, setSelectedProject] = useState<"all" | "min" | "hour" | "day">("all");
 
   const tasks: Task[] = data?.tasks || [];
-  const stats = data?.stats || { total: 0, p1: 0, olivia: 0, today: 0, min: 0, hour: 0, day: 0 };
+
+  // Get today's date in user's local timezone (YYYY-MM-DD format)
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+  // Debug logging
+  console.log('Today (local):', todayStr);
+  console.log('Tasks loaded:', tasks.length);
+  console.log('All tasks with dueDate values:', tasks.map(t => ({ content: t.content.slice(0, 30), dueDate: t.dueDate, completed: t.completed })));
+  console.log('Tasks matching today filter:', tasks.filter(t => t.dueDate === todayStr && !t.completed).map(t => t.content.slice(0, 30)));
+
+  // Calculate stats client-side to respect user's timezone
+  const stats = {
+    total: tasks.filter((t) => !t.completed).length,
+    p1: tasks.filter((t) => t.priority === 1 && !t.completed).length,
+    olivia: tasks.filter((t) => t.isOliviaTask && !t.completed).length,
+    today: tasks.filter((t) => t.dueDate === todayStr && !t.completed).length,
+    min: tasks.filter((t) => t.project === 'min' && !t.completed).length,
+    hour: tasks.filter((t) => t.project === 'hour' && !t.completed).length,
+    day: tasks.filter((t) => t.project === 'day' && !t.completed).length,
+  };
 
   const filteredTasks = tasks.filter(task => {
-    if (filter === "today") return task.dueDate === new Date().toISOString().split('T')[0] && !task.completed;
+    if (filter === "today") return task.dueDate === todayStr && !task.completed;
     if (filter === "olivia") return task.isOliviaTask;
     if (filter === "p1") return task.priority === 1 && !task.completed;
     return true;
@@ -51,6 +71,13 @@ export default function TaskMissionControl() {
     if (selectedProject === "all") return true;
     return task.project === selectedProject;
   });
+
+  // Group today's tasks by project type
+  const todayTasks = tasks.filter(task => task.dueDate === todayStr && !task.completed);
+  const dayTasks = todayTasks.filter(t => t.project === 'day');
+  const hourTasks = todayTasks.filter(t => t.project === 'hour');
+  const minTasks = todayTasks.filter(t => t.project === 'min');
+  const inboxTasks = todayTasks.filter(t => t.project === 'inbox');
 
   const getPriorityLabel = (priority: number) => {
     switch (priority) {
@@ -80,6 +107,60 @@ export default function TaskMissionControl() {
       default: return "text-slate-400";
     }
   };
+
+  const renderTask = (task: Task) => (
+    <div key={task.id} className="px-4 py-4 sm:px-6 sm:py-5 hover:bg-white/5 transition-all group">
+      <div className="flex items-start space-x-4">
+        <button className="mt-1 w-6 h-6 rounded-lg border-2 border-slate-600 hover:border-amber-500 hover:bg-amber-500/20 flex-shrink-0 transition-all" />
+        <div className="flex-1">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-slate-200 font-medium text-base sm:text-lg group-hover:text-amber-400 transition-colors">{task.content}</p>
+              {task.description && (
+                <p className="text-sm text-slate-500 mt-1">{task.description}</p>
+              )}
+            </div>
+            <div className="flex items-center space-x-3">
+              {task.isOliviaTask && (
+                <span className="flex items-center px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 rounded-lg text-sm border border-amber-500/30">
+                  <Bot className="w-4 h-4 mr-2" />
+                  Olivia
+                </span>
+              )}
+              <button className="text-slate-500 hover:text-slate-300 p-2 rounded-lg hover:bg-white/5 transition-all opacity-0 group-hover:opacity-100">
+                <MoreVertical className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-3">
+            <span className={`flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border ${getPriorityStyle(task.priority)}`}>
+              {getPriorityLabel(task.priority)}
+            </span>
+            {filter !== "today" && (
+              <span className={`flex items-center text-sm ${getProjectStyle(task.project)}`}>
+                <Clock4 className="w-4 h-4 mr-1" />
+                {task.project}
+              </span>
+            )}
+            {task.dueDate && (
+              <span className={`flex items-center text-sm ${
+                task.dueDate === todayStr ? "text-red-400" : "text-slate-500"
+              }`}>
+                <Calendar className="w-4 h-4 mr-1" />
+                {task.dueDate === todayStr ? "Today" : task.dueDate}
+              </span>
+            )}
+            {task.labels.map((label, idx) => (
+              <span key={idx} className="flex items-center text-sm text-slate-500">
+                <Tag className="w-4 h-4 mr-1" />
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   if (error) {
     return (
@@ -267,76 +348,106 @@ export default function TaskMissionControl() {
         </div>
       </div>
 
-      {/* Tasks List */}
-      <div className="glass-card overflow-hidden">
-        <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-amber-500/10 flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-white flex items-center">
-            <CheckSquare className="w-5 h-5 mr-2 text-amber-400" />
-            Tasks
-          </h3>
-          <span className="text-sm text-slate-400">{filteredTasks.filter(t => !t.completed).length} active</span>
-        </div>
-        <div className="divide-y divide-amber-500/10">
-          {filteredTasks.filter(t => !t.completed).map((task) => (
-            <div key={task.id} className="px-4 py-4 sm:px-6 sm:py-5 hover:bg-white/5 transition-all group">
-              <div className="flex items-start space-x-4">
-                <button className="mt-1 w-6 h-6 rounded-lg border-2 border-slate-600 hover:border-amber-500 hover:bg-amber-500/20 flex-shrink-0 transition-all" />
-                <div className="flex-1">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-slate-200 font-medium text-base sm:text-lg group-hover:text-amber-400 transition-colors">{task.content}</p>
-                      {task.description && (
-                        <p className="text-sm text-slate-500 mt-1">{task.description}</p>
-                      )}
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      {task.isOliviaTask && (
-                        <span className="flex items-center px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 rounded-lg text-sm border border-amber-500/30">
-                          <Bot className="w-4 h-4 mr-2" />
-                          Olivia
-                        </span>
-                      )}
-                      <button className="text-slate-500 hover:text-slate-300 p-2 rounded-lg hover:bg-white/5 transition-all opacity-0 group-hover:opacity-100">
-                        <MoreVertical className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-3">
-                    <span className={`flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border ${getPriorityStyle(task.priority)}`}>
-                      {getPriorityLabel(task.priority)}
-                    </span>
-                    <span className={`flex items-center text-sm ${getProjectStyle(task.project)}`}>
-                      <Clock4 className="w-4 h-4 mr-1" />
-                      {task.project}
-                    </span>
-                    {task.dueDate && (
-                      <span className={`flex items-center text-sm ${
-                        task.dueDate === new Date().toISOString().split('T')[0] ? "text-red-400" : "text-slate-500"
-                      }`}>
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {task.dueDate === new Date().toISOString().split('T')[0] ? "Today" : task.dueDate}
-                      </span>
-                    )}
-                    {task.labels.map((label, idx) => (
-                      <span key={idx} className="flex items-center text-sm text-slate-500">
-                        <Tag className="w-4 h-4 mr-1" />
-                        {label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+      {/* Tasks List - Grouped by Project when viewing Today */}
+      {filter === "today" ? (
+        <div className="space-y-6">
+          {/* Day Tasks */}
+          {dayTasks.length > 0 && (
+            <div className="glass-card overflow-hidden border-l-4 border-l-orange-500">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-orange-500/10 to-transparent border-b border-orange-500/20 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white flex items-center">
+                  <Target className="w-5 h-5 mr-2 text-orange-400" />
+                  Day Tasks
+                  <span className="ml-3 text-sm text-orange-400">{dayTasks.length}</span>
+                </h3>
+                <span className="text-xs text-slate-500">1 max per day</span>
+              </div>
+              <div className="divide-y divide-orange-500/10">
+                {dayTasks.map((task) => renderTask(task))}
               </div>
             </div>
-          ))}
-          {filteredTasks.filter(t => !t.completed).length === 0 && (
-            <div className="px-6 py-8 sm:py-12 text-center">
+          )}
+
+          {/* Hour Tasks */}
+          {hourTasks.length > 0 && (
+            <div className="glass-card overflow-hidden border-l-4 border-l-amber-500">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-amber-500/10 to-transparent border-b border-amber-500/20 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white flex items-center">
+                  <Clock className="w-5 h-5 mr-2 text-amber-400" />
+                  Hour Tasks
+                  <span className="ml-3 text-sm text-amber-400">{hourTasks.length}</span>
+                </h3>
+                <span className="text-xs text-slate-500">2-3 per day</span>
+              </div>
+              <div className="divide-y divide-amber-500/10">
+                {hourTasks.map((task) => renderTask(task))}
+              </div>
+            </div>
+          )}
+
+          {/* Min Tasks */}
+          {minTasks.length > 0 && (
+            <div className="glass-card overflow-hidden border-l-4 border-l-emerald-500">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-emerald-500/10 to-transparent border-b border-emerald-500/20 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white flex items-center">
+                  <Clock4 className="w-5 h-5 mr-2 text-emerald-400" />
+                  Min Tasks
+                  <span className="ml-3 text-sm text-emerald-400">{minTasks.length}</span>
+                </h3>
+                <span className="text-xs text-slate-500">5-10 per day</span>
+              </div>
+              <div className="divide-y divide-emerald-500/10">
+                {minTasks.map((task) => renderTask(task))}
+              </div>
+            </div>
+          )}
+
+          {/* Inbox Tasks (no time estimate) */}
+          {inboxTasks.length > 0 && (
+            <div className="glass-card overflow-hidden border-l-4 border-l-slate-500">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-slate-500/10 to-transparent border-b border-slate-500/20 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white flex items-center">
+                  <CheckSquare className="w-5 h-5 mr-2 text-slate-400" />
+                  Inbox / Uncategorized
+                  <span className="ml-3 text-sm text-slate-400">{inboxTasks.length}</span>
+                </h3>
+              </div>
+              <div className="divide-y divide-slate-500/10">
+                {inboxTasks.map((task) => renderTask(task))}
+              </div>
+            </div>
+          )}
+
+          {todayTasks.length === 0 && (
+            <div className="glass-card p-8 sm:p-12 text-center">
               <CheckSquare className="w-16 h-16 mx-auto mb-4 text-slate-600" />
-              <p className="text-slate-400 text-lg">No active tasks match your filters</p>
-              <p className="text-slate-500 text-sm mt-2">Try adjusting your filters or add a new task</p>
+              <p className="text-slate-400 text-lg">No tasks due today</p>
+              <p className="text-slate-500 text-sm mt-2">You&apos;re all caught up!</p>
             </div>
           )}
         </div>
-      </div>
+      ) : (
+        /* Non-today view - regular list */
+        <div className="glass-card overflow-hidden">
+          <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-amber-500/10 flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-white flex items-center">
+              <CheckSquare className="w-5 h-5 mr-2 text-amber-400" />
+              Tasks
+            </h3>
+            <span className="text-sm text-slate-400">{filteredTasks.filter(t => !t.completed).length} active</span>
+          </div>
+          <div className="divide-y divide-amber-500/10">
+            {filteredTasks.filter(t => !t.completed).map((task) => renderTask(task))}
+            {filteredTasks.filter(t => !t.completed).length === 0 && (
+              <div className="px-6 py-8 sm:py-12 text-center">
+                <CheckSquare className="w-16 h-16 mx-auto mb-4 text-slate-600" />
+                <p className="text-slate-400 text-lg">No active tasks match your filters</p>
+                <p className="text-slate-500 text-sm mt-2">Try adjusting your filters or add a new task</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Completed Tasks */}
       {filteredTasks.some(t => t.completed) && (

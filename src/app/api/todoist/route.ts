@@ -35,21 +35,30 @@ export async function GET() {
   }
 
   try {
-    const response = await fetch('https://api.todoist.com/api/v1/tasks', {
-      headers: {
-        'Authorization': `Bearer ${TODOIST_API_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const tasks: TodoistTask[] = [];
+    let cursor: string | null = null;
 
-    if (!response.ok) {
-      throw new Error(`Todoist API error: ${response.status}`);
-    }
+    // Todoist v1 tasks endpoint is paginated (50 items/page by default)
+    // Fetch all pages so due-today counts are accurate.
+    do {
+      const query = cursor ? `?cursor=${encodeURIComponent(cursor)}` : '';
+      const response = await fetch(`https://api.todoist.com/api/v1/tasks${query}`, {
+        headers: {
+          'Authorization': `Bearer ${TODOIST_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-    const data = await response.json();
-    const tasks: TodoistTask[] = data.results || [];
+      if (!response.ok) {
+        throw new Error(`Todoist API error: ${response.status}`);
+      }
 
-    const transformedTasks: TransformedTask[] = tasks.map((task) => ({
+      const data = await response.json() as { results?: TodoistTask[]; next_cursor?: string | null };
+      tasks.push(...(data.results || []));
+      cursor = data.next_cursor || null;
+    } while (cursor);
+
+    const transformedTasks: TransformedTask[] = tasks.map((task) => ({ 
       id: task.id,
       content: task.content,
       description: task.description || '',
@@ -62,13 +71,12 @@ export async function GET() {
       client: extractClientFromLabels(task.labels),
     }));
 
+    // Note: "today" stats are calculated client-side to respect user's timezone
     const stats = {
       total: transformedTasks.filter((t) => !t.completed).length,
       p1: transformedTasks.filter((t) => t.priority === 1 && !t.completed).length,
       olivia: transformedTasks.filter((t) => t.isOliviaTask && !t.completed).length,
-      today: transformedTasks.filter((t) => 
-        t.dueDate === new Date().toISOString().split('T')[0] && !t.completed
-      ).length,
+      today: 0, // Calculated client-side
       min: transformedTasks.filter((t) => t.project === 'min' && !t.completed).length,
       hour: transformedTasks.filter((t) => t.project === 'hour' && !t.completed).length,
       day: transformedTasks.filter((t) => t.project === 'day' && !t.completed).length,

@@ -125,3 +125,27 @@ export function useTodoistData() {
 export function useFirefliesData() {
   return useRealtimeData<FirefliesResponse>('/api/fireflies', { refreshInterval: 30000 });
 }
+
+export interface MemoriesResponse {
+  memories: Array<{
+    id: string;
+    title: string;
+    content: string;
+    preview: string;
+    tags: string[];
+    sourceFile: string;
+    sourceType: "long-term" | "daily";
+    date: string;
+    dateLabel: string;
+  }>;
+  meta: {
+    total: number;
+    sourceFiles: string[];
+    newestDate?: string;
+    oldestDate?: string;
+  };
+}
+
+export function useMemoriesData() {
+  return useRealtimeData<MemoriesResponse>('/api/memories', { refreshInterval: 60000 });
+}
