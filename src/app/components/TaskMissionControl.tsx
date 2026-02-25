@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  CheckSquare, 
-  AlertCircle, 
+import {
+  CheckSquare,
+  AlertCircle,
   Calendar,
   Tag,
   Filter,
@@ -85,7 +85,7 @@ export default function TaskMissionControl() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             Task <span className="gradient-text">Mission Control</span>
           </h1>
           <p className="text-slate-400">Error loading tasks. Check your Todoist API configuration.</p>
@@ -93,7 +93,7 @@ export default function TaskMissionControl() {
         <div className="glass-card p-8 border-red-500/30">
           <AlertCircle className="w-12 h-12 text-red-400 mb-4" />
           <p className="text-red-400 text-lg">{error.message}</p>
-          <button 
+          <button
             onClick={refresh}
             className="mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 rounded-xl text-white font-medium hover:from-red-400 hover:to-red-500 transition-all"
           >
@@ -105,11 +105,11 @@ export default function TaskMissionControl() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             Task <span className="gradient-text">Mission Control</span>
           </h1>
           <p className="text-slate-400">
@@ -125,15 +125,15 @@ export default function TaskMissionControl() {
             )}
           </p>
         </div>
-        <div className="flex items-center space-x-4">
-          <button 
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          <button
             onClick={refresh}
             disabled={loading}
             className="p-3 rounded-xl glass-card text-slate-400 hover:text-amber-400 disabled:opacity-50 transition-all"
           >
             <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
           </button>
-          <button className="flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 rounded-xl text-white font-medium transition-all shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50">
+          <button className="flex items-center px-4 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 rounded-xl text-white text-sm sm:text-base font-medium transition-all shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50">
             <Plus className="w-5 h-5 mr-2" />
             Add Task
           </button>
@@ -141,80 +141,80 @@ export default function TaskMissionControl() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="glass-card p-6 hover-lift">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <CheckSquare className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-slate-400 text-sm">Active</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Active Tasks</p>
-          <p className="text-3xl font-bold text-white">{stats.total || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.total || 0}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg shadow-red-500/30">
-              <Target className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg shadow-red-500/30">
+              <Target className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-red-400 text-sm font-medium">Must Do</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">P1 Priority</p>
-          <p className="text-3xl font-bold text-white">{stats.p1 || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.p1 || 0}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <Bot className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Bot className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-amber-400 text-sm font-medium">AI</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Olivia Tasks</p>
-          <p className="text-3xl font-bold text-white">{stats.olivia || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.olivia || 0}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-              <Calendar className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+              <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-emerald-400 text-sm font-medium">Today</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Due Today</p>
-          <p className="text-3xl font-bold text-white">{stats.today || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.today || 0}</p>
         </div>
       </div>
 
       {/* Workload Overview */}
-      <div className="glass-card p-6">
+      <div className="glass-card p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
           <Zap className="w-5 h-5 mr-2 text-amber-400" />
           Daily Workload
         </h3>
-        <div className="grid grid-cols-3 gap-6">
-          <div className="glass-card p-5 text-center hover-lift">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-emerald-500/30">
-              <Clock4 className="w-6 h-6 text-white" />
+        <div className="grid grid-cols-3 gap-3 sm:gap-6">
+          <div className="glass-card p-3 sm:p-5 text-center hover-lift">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-emerald-500/30">
+              <Clock4 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <p className="text-3xl font-bold text-white mb-1">{stats.min || 0}</p>
+            <p className="text-xl sm:text-3xl font-bold text-white mb-1">{stats.min || 0}</p>
             <p className="text-sm text-slate-400">Min Tasks</p>
             <p className="text-xs text-slate-500 mt-2">5-10 per day</p>
           </div>
-          <div className="glass-card p-5 text-center hover-lift">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-amber-500/30">
-              <Clock className="w-6 h-6 text-white" />
+          <div className="glass-card p-3 sm:p-5 text-center hover-lift">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-amber-500/30">
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <p className="text-3xl font-bold text-white mb-1">{stats.hour || 0}</p>
+            <p className="text-xl sm:text-3xl font-bold text-white mb-1">{stats.hour || 0}</p>
             <p className="text-sm text-slate-400">Hour Tasks</p>
             <p className="text-xs text-slate-500 mt-2">2-3 per day</p>
           </div>
-          <div className="glass-card p-5 text-center hover-lift">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-amber-500/30">
-              <Target className="w-6 h-6 text-white" />
+          <div className="glass-card p-3 sm:p-5 text-center hover-lift">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-amber-500/30">
+              <Target className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <p className="text-3xl font-bold text-white mb-1">{stats.day || 0}</p>
+            <p className="text-xl sm:text-3xl font-bold text-white mb-1">{stats.day || 0}</p>
             <p className="text-sm text-slate-400">Day Tasks</p>
             <p className="text-xs text-slate-500 mt-2">1 max per day</p>
           </div>
@@ -233,7 +233,7 @@ export default function TaskMissionControl() {
       <div className="flex flex-wrap items-center gap-4">
         <div className="glass-card px-4 py-2 flex items-center">
           <Filter className="w-4 h-4 text-amber-400 mr-3" />
-          <select 
+          <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as "all" | "today" | "olivia" | "p1")}
             className="bg-transparent text-slate-200 text-sm focus:outline-none cursor-pointer"
@@ -246,7 +246,7 @@ export default function TaskMissionControl() {
         </div>
         <div className="glass-card px-4 py-2 flex items-center">
           <Clock4 className="w-4 h-4 text-amber-400 mr-3" />
-          <select 
+          <select
             value={selectedProject}
             onChange={(e) => setSelectedProject(e.target.value as "all" | "min" | "hour" | "day")}
             className="bg-transparent text-slate-200 text-sm focus:outline-none cursor-pointer"
@@ -257,10 +257,10 @@ export default function TaskMissionControl() {
             <option value="day" className="bg-slate-900">Day (1/day)</option>
           </select>
         </div>
-        <div className="glass-card px-4 py-2 flex items-center flex-1 max-w-md">
+        <div className="glass-card px-4 py-2 flex items-center flex-1 min-w-0">
           <Search className="w-4 h-4 text-amber-400 mr-3" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Search tasks..."
             className="bg-transparent text-slate-200 text-sm focus:outline-none w-full placeholder-slate-500"
           />
@@ -269,7 +269,7 @@ export default function TaskMissionControl() {
 
       {/* Tasks List */}
       <div className="glass-card overflow-hidden">
-        <div className="px-6 py-4 border-b border-amber-500/10 flex items-center justify-between">
+        <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-amber-500/10 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-white flex items-center">
             <CheckSquare className="w-5 h-5 mr-2 text-amber-400" />
             Tasks
@@ -278,13 +278,13 @@ export default function TaskMissionControl() {
         </div>
         <div className="divide-y divide-amber-500/10">
           {filteredTasks.filter(t => !t.completed).map((task) => (
-            <div key={task.id} className="px-6 py-5 hover:bg-white/5 transition-all group">
+            <div key={task.id} className="px-4 py-4 sm:px-6 sm:py-5 hover:bg-white/5 transition-all group">
               <div className="flex items-start space-x-4">
                 <button className="mt-1 w-6 h-6 rounded-lg border-2 border-slate-600 hover:border-amber-500 hover:bg-amber-500/20 flex-shrink-0 transition-all" />
                 <div className="flex-1">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-slate-200 font-medium text-lg group-hover:text-amber-400 transition-colors">{task.content}</p>
+                      <p className="text-slate-200 font-medium text-base sm:text-lg group-hover:text-amber-400 transition-colors">{task.content}</p>
                       {task.description && (
                         <p className="text-sm text-slate-500 mt-1">{task.description}</p>
                       )}
@@ -301,7 +301,7 @@ export default function TaskMissionControl() {
                       </button>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4 mt-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-3">
                     <span className={`flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border ${getPriorityStyle(task.priority)}`}>
                       {getPriorityLabel(task.priority)}
                     </span>
@@ -329,7 +329,7 @@ export default function TaskMissionControl() {
             </div>
           ))}
           {filteredTasks.filter(t => !t.completed).length === 0 && (
-            <div className="px-6 py-12 text-center">
+            <div className="px-6 py-8 sm:py-12 text-center">
               <CheckSquare className="w-16 h-16 mx-auto mb-4 text-slate-600" />
               <p className="text-slate-400 text-lg">No active tasks match your filters</p>
               <p className="text-slate-500 text-sm mt-2">Try adjusting your filters or add a new task</p>
@@ -341,7 +341,7 @@ export default function TaskMissionControl() {
       {/* Completed Tasks */}
       {filteredTasks.some(t => t.completed) && (
         <div className="glass-card overflow-hidden">
-          <div className="px-6 py-4 border-b border-amber-500/10">
+          <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-amber-500/10">
             <h3 className="font-semibold text-slate-400 flex items-center">
               <CheckCircle2 className="w-5 h-5 mr-2" />
               Completed
@@ -349,7 +349,7 @@ export default function TaskMissionControl() {
           </div>
           <div className="divide-y divide-amber-500/10">
             {filteredTasks.filter(t => t.completed).map((task) => (
-              <div key={task.id} className="px-6 py-3 opacity-50">
+              <div key={task.id} className="px-4 py-2 sm:px-6 sm:py-3 opacity-50">
                 <div className="flex items-center space-x-4">
                   <div className="w-6 h-6 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0">
                     <CheckSquare className="w-4 h-4 text-white" />

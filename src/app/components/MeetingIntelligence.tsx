@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  Video, 
-  CheckSquare, 
-  Clock, 
+import {
+  Video,
+  CheckSquare,
+  Clock,
   Users,
   Search,
   Filter,
@@ -48,7 +48,7 @@ export default function MeetingIntelligence() {
   const meetings: Meeting[] = data?.meetings || [];
   const stats = data?.stats || { total: 0, thisWeek: 0, pendingReview: 0, totalActionItems: 0 };
 
-  const filteredMeetings = meetings.filter(meeting => 
+  const filteredMeetings = meetings.filter(meeting =>
     filter === "all" ? true : meeting.status === filter
   );
 
@@ -56,7 +56,7 @@ export default function MeetingIntelligence() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             Meeting <span className="gradient-text">Intelligence</span>
           </h1>
           <p className="text-slate-400">Error loading meetings. Check your Fireflies API configuration.</p>
@@ -64,7 +64,7 @@ export default function MeetingIntelligence() {
         <div className="glass-card p-8 border-red-500/30">
           <AlertCircle className="w-12 h-12 text-red-400 mb-4" />
           <p className="text-red-400 text-lg">{error.message}</p>
-          <button 
+          <button
             onClick={refresh}
             className="mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 rounded-xl text-white font-medium hover:from-red-400 hover:to-red-500 transition-all"
           >
@@ -76,11 +76,11 @@ export default function MeetingIntelligence() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             Meeting <span className="gradient-text">Intelligence</span>
           </h1>
           <p className="text-slate-400">
@@ -96,7 +96,7 @@ export default function MeetingIntelligence() {
             )}
           </p>
         </div>
-        <button 
+        <button
           onClick={refresh}
           disabled={loading}
           className="p-3 rounded-xl glass-card text-slate-400 hover:text-amber-400 disabled:opacity-50 transition-all"
@@ -106,22 +106,22 @@ export default function MeetingIntelligence() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="glass-card p-6 hover-lift">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <Video className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Video className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-slate-400 text-sm">Recent</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Meetings</p>
-          <p className="text-3xl font-bold text-white">{stats.total || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.total || 0}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-              <CheckSquare className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+              <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-emerald-400 text-sm font-medium flex items-center">
               <ArrowUpRight className="w-4 h-4 mr-1" />
@@ -129,37 +129,37 @@ export default function MeetingIntelligence() {
             </span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Action Items</p>
-          <p className="text-3xl font-bold text-white">{stats.totalActionItems || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.totalActionItems || 0}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <Clock className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-slate-400 text-sm">This Week</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Meetings</p>
-          <p className="text-3xl font-bold text-white">{stats.thisWeek || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.thisWeek || 0}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <Sparkles className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-orange-400 text-sm font-medium">AI</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Processed</p>
-          <p className="text-3xl font-bold text-white">{stats.total || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{stats.total || 0}</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex items-center space-x-4">
+      <div className="flex flex-wrap items-center gap-3">
         <div className="glass-card px-4 py-2 flex items-center">
           <Filter className="w-4 h-4 text-amber-400 mr-3" />
-          <select 
+          <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as "all" | "pending" | "review")}
             className="bg-transparent text-slate-200 text-sm focus:outline-none cursor-pointer"
@@ -169,10 +169,10 @@ export default function MeetingIntelligence() {
             <option value="review" className="bg-slate-900">Needs Review</option>
           </select>
         </div>
-        <div className="glass-card px-4 py-2 flex items-center flex-1 max-w-md">
+        <div className="glass-card px-4 py-2 flex items-center flex-1 min-w-0">
           <Search className="w-4 h-4 text-amber-400 mr-3" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Search meetings..."
             className="bg-transparent text-slate-200 text-sm focus:outline-none w-full placeholder-slate-500"
           />
@@ -182,22 +182,22 @@ export default function MeetingIntelligence() {
       {/* Meetings List */}
       <div className="space-y-4">
         {filteredMeetings.map((meeting) => (
-          <div 
+          <div
             key={meeting.id}
-            className="glass-card p-6 hover-lift group"
+            className="glass-card p-4 sm:p-6 hover-lift group"
           >
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
               <div className="flex items-start space-x-4">
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${
                   meeting.status === "processed" ? "bg-gradient-to-br from-emerald-500 to-teal-500" :
                   meeting.status === "review" ? "bg-gradient-to-br from-amber-500 to-orange-500" :
                   "bg-gradient-to-br from-slate-500 to-slate-600"
                 } shadow-lg`}>
-                  <Mic2 className="w-7 h-7 text-white" />
+                  <Mic2 className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">{meeting.title}</h3>
+                    <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-amber-400 transition-colors">{meeting.title}</h3>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
                       meeting.status === "processed" ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" :
                       meeting.status === "review" ? "bg-amber-500/20 text-amber-400 border-amber-500/30" :
@@ -207,7 +207,7 @@ export default function MeetingIntelligence() {
                     </span>
                   </div>
                   <p className="text-slate-400 mb-3">{meeting.client}</p>
-                  <div className="flex items-center space-x-6 text-sm text-slate-500">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500">
                     <span className="flex items-center">
                       <Calendar className="w-4 h-4 mr-2 text-amber-400" />
                       {new Date(meeting.date).toLocaleDateString()}
@@ -224,13 +224,13 @@ export default function MeetingIntelligence() {
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <button 
+                <button
                   onClick={() => setSelectedMeeting(meeting)}
                   className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 rounded-xl text-white text-sm font-medium transition-all shadow-lg shadow-amber-500/30"
                 >
                   View
                 </button>
-                <a 
+                <a
                   href={meeting.transcriptUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -261,7 +261,7 @@ export default function MeetingIntelligence() {
           </div>
         ))}
         {filteredMeetings.length === 0 && (
-          <div className="glass-card p-12 text-center">
+          <div className="glass-card p-8 sm:p-12 text-center">
             <Video className="w-16 h-16 mx-auto mb-4 text-slate-600" />
             <p className="text-slate-400 text-lg">No meetings found</p>
             <p className="text-slate-500 text-sm mt-2">Check your Fireflies connection</p>
@@ -273,27 +273,27 @@ export default function MeetingIntelligence() {
       {selectedMeeting && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="glass-card max-w-3xl w-full max-h-[85vh] overflow-auto">
-            <div className="p-6 border-b border-amber-500/10 flex items-center justify-between">
+            <div className="p-4 sm:p-6 border-b border-amber-500/10 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
                   <Video className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-white">{selectedMeeting.title}</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white">{selectedMeeting.title}</h2>
                   <p className="text-slate-400">{selectedMeeting.client}</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setSelectedMeeting(null)}
                 className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all"
               >
                 ✕
               </button>
             </div>
-            
-            <div className="p-6 space-y-6">
+
+            <div className="p-4 sm:p-6 space-y-6">
               {/* Meeting Meta */}
-              <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm text-slate-400">
                 <span className="flex items-center glass-card px-3 py-2">
                   <Calendar className="w-4 h-4 mr-2 text-amber-400" />
                   {new Date(selectedMeeting.date).toLocaleDateString()}
@@ -344,7 +344,7 @@ export default function MeetingIntelligence() {
                   </h3>
                   <div className="space-y-3">
                     {selectedMeeting.actionItems.map((item) => (
-                      <div 
+                      <div
                         key={item.id}
                         className="flex items-center justify-between p-4 glass-card"
                       >
@@ -372,7 +372,7 @@ export default function MeetingIntelligence() {
               {/* Transcript Link */}
               <div className="flex items-center justify-between pt-4 border-t border-amber-500/10">
                 <span className="text-sm text-slate-500">Full transcript available in Fireflies</span>
-                <a 
+                <a
                   href={selectedMeeting.transcriptUrl}
                   target="_blank"
                   rel="noopener noreferrer"
