@@ -111,11 +111,12 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 **Goal:** The Mission Control dashboard is fully responsive for mobile devices — sidebar converts to a hamburger drawer, header compresses to essential elements, spacing/fonts tighten for mobile density, stats grids show 2 columns, and all view components work on narrow screens (640px breakpoint)
 **Depends on:** Phase 5
 **Requirements:** MOBILE-01, MOBILE-02, MOBILE-03, MOBILE-04, MOBILE-05
-**Plans:** 2/2 plans complete
+**Plans:** 3 plans (2 complete, 1 gap closure)
 
 Plans:
 - [x] 06-01-PLAN.md — Sidebar-to-drawer conversion, header compression, dashboard overview responsive
 - [x] 06-02-PLAN.md — All three view components (Clients, Meetings, Tasks) responsive for mobile
+- [ ] 06-03-PLAN.md — Gap closure: add MOBILE-* requirement definitions to REQUIREMENTS.md + fix TaskMissionControl header stacking
 
 ---
 *Roadmap created: 2026-02-24*
