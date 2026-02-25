@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  Building2, 
-  Calendar, 
-  FileText, 
+import {
+  Building2,
+  Calendar,
+  FileText,
   AlertCircle,
   CheckCircle2,
   Clock,
@@ -103,7 +103,7 @@ export default function ClientCommandCenter() {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [filter, setFilter] = useState<"all" | "active" | "at-risk" | "prospective">("all");
 
-  const filteredClients = mockClients.filter(client => 
+  const filteredClients = mockClients.filter(client =>
     filter === "all" ? true : client.status === filter
   );
 
@@ -131,27 +131,27 @@ export default function ClientCommandCenter() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             Client <span className="gradient-text">Command Center</span>
           </h1>
           <p className="text-slate-400">Manage all client engagements and deliverables</p>
         </div>
-        <button className="flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 rounded-xl text-white font-medium transition-all shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50">
+        <button className="flex items-center px-4 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 rounded-xl text-white text-sm sm:text-base font-medium transition-all shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50">
           <Plus className="w-5 h-5 mr-2" />
           Add Client
         </button>
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="glass-card p-6 hover-lift">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <Building2 className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-emerald-400 text-sm font-medium flex items-center">
               <ArrowUpRight className="w-4 h-4 mr-1" />
@@ -159,13 +159,13 @@ export default function ClientCommandCenter() {
             </span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Active Clients</p>
-          <p className="text-3xl font-bold text-white">{activeClients}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{activeClients}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <Wallet className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-emerald-400 text-sm font-medium flex items-center">
               <ArrowUpRight className="w-4 h-4 mr-1" />
@@ -173,29 +173,29 @@ export default function ClientCommandCenter() {
             </span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Weekly Revenue</p>
-          <p className="text-3xl font-bold text-white">${(totalWeeklyRevenue / 1000).toFixed(1)}k</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">${(totalWeeklyRevenue / 1000).toFixed(1)}k</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-500/30">
-              <AlertCircle className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-500/30">
+              <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-red-400 text-sm font-medium">Attention</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">At Risk</p>
-          <p className="text-3xl font-bold text-white">{atRiskClients}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{atRiskClients}</p>
         </div>
 
-        <div className="glass-card p-6 hover-lift">
+        <div className="glass-card p-4 sm:p-6 hover-lift">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <Calendar className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <span className="text-slate-400 text-sm font-medium">This Week</span>
           </div>
           <p className="text-slate-400 text-sm mb-1">Meetings</p>
-          <p className="text-3xl font-bold text-white">8</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">8</p>
         </div>
       </div>
 
@@ -203,7 +203,7 @@ export default function ClientCommandCenter() {
       <div className="flex flex-wrap items-center gap-4">
         <div className="glass-card px-4 py-2 flex items-center">
           <Filter className="w-4 h-4 text-amber-400 mr-3" />
-          <select 
+          <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as "all" | "active" | "at-risk" | "prospective")}
             className="bg-transparent text-slate-200 text-sm focus:outline-none cursor-pointer"
@@ -214,10 +214,10 @@ export default function ClientCommandCenter() {
             <option value="prospective" className="bg-slate-900">Prospective</option>
           </select>
         </div>
-        <div className="glass-card px-4 py-2 flex items-center flex-1 max-w-md">
+        <div className="glass-card px-4 py-2 flex items-center flex-1 min-w-0">
           <Search className="w-4 h-4 text-amber-400 mr-3" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Search clients..."
             className="bg-transparent text-slate-200 text-sm focus:outline-none w-full placeholder-slate-500"
           />
@@ -227,12 +227,12 @@ export default function ClientCommandCenter() {
       {/* Client Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {filteredClients.map((client) => (
-          <div 
+          <div
             key={client.id}
             onClick={() => setSelectedClient(client)}
-            className="glass-card p-6 cursor-pointer hover-lift group"
+            className="glass-card p-4 sm:p-6 cursor-pointer hover-lift group"
           >
-            <div className="flex items-start justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
               <div className="flex items-center space-x-4">
                 <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
                   client.status === "active" ? "bg-gradient-to-br from-emerald-500 to-teal-500" :
@@ -243,7 +243,7 @@ export default function ClientCommandCenter() {
                   <Building2 className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white group-hover:text-amber-400 transition-colors">{client.name}</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-amber-400 transition-colors">{client.name}</h3>
                   <p className="text-slate-400">{client.role}</p>
                 </div>
               </div>
@@ -257,7 +257,7 @@ export default function ClientCommandCenter() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4">
               <div className="glass-card p-4">
                 <p className="text-slate-500 text-sm mb-1">Weekly Revenue</p>
                 <p className="text-2xl font-bold text-white">${client.weeklyRevenue.toLocaleString()}</p>
@@ -266,7 +266,7 @@ export default function ClientCommandCenter() {
                 <p className="text-slate-500 text-sm mb-2">Health Score</p>
                 <div className="flex items-center">
                   <div className="flex-1 bg-slate-800 rounded-full h-2.5 mr-3 overflow-hidden">
-                    <div 
+                    <div
                       className={`h-full rounded-full ${getHealthColor(client.health)} transition-all duration-500`}
                       style={{ width: `${client.health}%` }}
                     />
@@ -301,7 +301,7 @@ export default function ClientCommandCenter() {
       {selectedClient && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="glass-card max-w-2xl w-full max-h-[80vh] overflow-auto">
-            <div className="p-6 border-b border-amber-500/10 flex items-center justify-between">
+            <div className="p-4 sm:p-6 border-b border-amber-500/10 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
                   <Building2 className="w-7 h-7 text-white" />
@@ -311,15 +311,15 @@ export default function ClientCommandCenter() {
                   <p className="text-slate-400">{selectedClient.role}</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setSelectedClient(null)}
                 className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all"
               >
                 ✕
               </button>
             </div>
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-3 gap-4">
+            <div className="p-4 sm:p-6 space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="glass-card p-4 text-center">
                   <p className="text-slate-500 text-sm mb-1">Weekly Revenue</p>
                   <p className="text-2xl font-bold text-white">${selectedClient.weeklyRevenue.toLocaleString()}</p>
@@ -333,7 +333,7 @@ export default function ClientCommandCenter() {
                   <p className="text-2xl font-bold text-white capitalize">{selectedClient.status}</p>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
                   <Briefcase className="w-5 h-5 mr-2 text-amber-400" />
