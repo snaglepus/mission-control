@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 const FIREFLIES_API_KEY = process.env.FIREFLIES_API_KEY;
 
-const FIRELIES_QUERY = `
+const FIREFLIES_QUERY = `
   query {
     transcripts(limit: 20) {
       id
@@ -57,7 +57,7 @@ export async function GET() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${FIREFLIES_API_KEY}`,
       },
-      body: JSON.stringify({ query: FIRELIES_QUERY }),
+      body: JSON.stringify({ query: FIREFLIES_QUERY }),
     });
 
     const responseData = await response.json();

@@ -129,10 +129,6 @@
     box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
   }
 
-  .glow-purple {
-    box-shadow: 0 0 20px rgba(234, 88, 12, 0.3);
-  }
-
   .status-dot {
     width: 8px;
     height: 8px;
@@ -199,10 +195,6 @@
 
   .glass-card:hover .text-glow {
     text-shadow: 0 0 8px rgba(251, 191, 36, 0.35);
-  }
-
-  .card-gradient {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 27, 75, 0.6) 100%);
   }
 
   .hover-lift {
