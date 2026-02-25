@@ -1,17 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Calendar, 
-  CheckSquare, 
+import {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  CheckSquare,
   TrendingUp,
   Settings,
   Bell,
   Search,
-  Menu,
-  X,
   Zap,
   Activity,
   Clock,
@@ -26,7 +24,6 @@ type ToolView = "dashboard" | "clients" | "meetings" | "tasks";
 
 export default function MissionControl() {
   const [activeView, setActiveView] = useState<ToolView>("dashboard");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const tools = [
     { id: "dashboard" as ToolView, name: "Overview", icon: LayoutDashboard },
@@ -38,21 +35,16 @@ export default function MissionControl() {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <aside 
-        className={`${sidebarOpen ? "w-64" : "w-20"} bg-[#1a0f00]/80 backdrop-blur-xl border-r border-amber-500/10 transition-all duration-300 flex flex-col`}
-      >
+      <aside className="w-20 bg-[#1a0f00]/80 backdrop-blur-xl border-r border-amber-500/10 flex flex-col">
         {/* Logo */}
-        <div className="h-20 flex items-center px-6 border-b border-amber-500/10">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center glow-warm">
+        <div className="h-20 flex items-center justify-center border-b border-amber-500/10">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center logo-orb">
             <Zap className="w-5 h-5 text-white" />
           </div>
-          {sidebarOpen && (
-            <span className="ml-3 font-bold text-xl neon-text">Mission Control</span>
-          )}
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 py-6 px-3 space-y-2">
+        <nav className="flex-1 py-6 px-2 space-y-1">
           {tools.map((tool) => {
             const Icon = tool.icon;
             const isActive = activeView === tool.id;
@@ -60,37 +52,18 @@ export default function MissionControl() {
               <button
                 key={tool.id}
                 onClick={() => setActiveView(tool.id)}
-                className={`w-full flex items-center px-4 py-3.5 rounded-xl transition-all duration-300 sidebar-item group ${
+                className={`w-full flex flex-col items-center py-3 px-1 rounded-xl transition-all duration-300 sidebar-item ${
                   isActive
-                    ? "bg-gradient-to-r from-amber-500/20 to-orange-600/20 text-amber-400"
+                    ? "bg-gradient-to-b from-amber-500/20 to-orange-600/15 text-amber-400 active"
                     : "text-slate-400 hover:text-amber-300 hover:bg-amber-500/5"
                 }`}
               >
-                <div className={`p-2 rounded-lg transition-all ${
-                  isActive ? "bg-amber-500/20" : "group-hover:bg-white/10"
-                }`}>
-                  <Icon className={`w-5 h-5 ${isActive ? "text-amber-400" : ""}`} />
-                </div>
-                {sidebarOpen && (
-                  <span className="ml-3 font-medium">{tool.name}</span>
-                )}
-                {isActive && sidebarOpen && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400 glow-warm" />
-                )}
+                <Icon className="w-5 h-5" />
+                <span className="mt-1 text-[11px] font-medium leading-tight">{tool.name}</span>
               </button>
             );
           })}
         </nav>
-
-        {/* Bottom Actions */}
-        <div className="p-4 border-t border-amber-500/10">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="w-full flex items-center justify-center p-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-slate-200 transition-all"
-          >
-            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
       </aside>
 
       {/* Main Content */}
