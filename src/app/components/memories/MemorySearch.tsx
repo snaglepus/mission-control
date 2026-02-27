@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, CalendarRange, FileText, ArrowUpDown } from "lucide-react";
+import { Search, CalendarRange, FileText, ArrowUpDown, Clock3 } from "lucide-react";
 import { SortOption } from "./types";
 
 interface MemorySearchProps {
@@ -9,11 +9,13 @@ interface MemorySearchProps {
   toDate: string;
   sourceFile: string;
   sourceFiles: string[];
+  sourceDate: string;
   sort: SortOption;
   onQueryChange: (value: string) => void;
   onFromDateChange: (value: string) => void;
   onToDateChange: (value: string) => void;
   onSourceFileChange: (value: string) => void;
+  onSourceDateChange: (value: string) => void;
   onSortChange: (value: SortOption) => void;
 }
 
@@ -24,13 +26,17 @@ export default function MemorySearch(props: MemorySearchProps) {
     toDate,
     sourceFile,
     sourceFiles,
+    sourceDate,
     sort,
     onQueryChange,
     onFromDateChange,
     onToDateChange,
     onSourceFileChange,
+    onSourceDateChange,
     onSortChange,
   } = props;
+
+  const sortedSourceFiles = [...sourceFiles].sort((a, b) => b.localeCompare(a));
 
   return (
     <div className="glass-card p-4 sm:p-5 space-y-4">
@@ -44,7 +50,7 @@ export default function MemorySearch(props: MemorySearchProps) {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
         <label className="glass-card px-3 py-2 flex items-center gap-2">
           <CalendarRange className="w-4 h-4 text-amber-400" />
           <input
@@ -68,6 +74,17 @@ export default function MemorySearch(props: MemorySearchProps) {
         </label>
 
         <label className="glass-card px-3 py-2 flex items-center gap-2">
+          <Clock3 className="w-4 h-4 text-amber-400" />
+          <input
+            type="date"
+            value={sourceDate}
+            onChange={(e) => onSourceDateChange(e.target.value)}
+            className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
+            aria-label="Quick pick source file by date"
+          />
+        </label>
+
+        <label className="glass-card px-3 py-2 flex items-center gap-2">
           <FileText className="w-4 h-4 text-amber-400" />
           <select
             value={sourceFile}
@@ -75,7 +92,7 @@ export default function MemorySearch(props: MemorySearchProps) {
             className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
           >
             <option value="all" className="bg-slate-900">All sources</option>
-            {sourceFiles.map((file) => (
+            {sortedSourceFiles.map((file) => (
               <option key={file} value={file} className="bg-slate-900">{file}</option>
             ))}
           </select>

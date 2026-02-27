@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Brain, Loader2, RefreshCw } from "lucide-react";
 import { useMemoriesData } from "../hooks/useRealtimeData";
 import MemorySearch from "./memories/MemorySearch";
@@ -16,6 +16,18 @@ function sortMemories(memories: MemoryItem[], sort: SortOption) {
   return sorted.sort((a, b) => b.title.localeCompare(a.title));
 }
 
+function getMemoryDateKey(memory: MemoryItem): string {
+  const sourceDate = memory.sourceFile.match(/(\d{4}-\d{2}-\d{2})/)?.[1];
+  if (sourceDate) return sourceDate;
+
+  const parsed = new Date(memory.date);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toISOString().slice(0, 10);
+  }
+
+  return "";
+}
+
 export default function MemoryMissionControl() {
   const { data, loading, error, refresh, lastUpdated } = useMemoriesData();
 
@@ -23,10 +35,34 @@ export default function MemoryMissionControl() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [sourceFile, setSourceFile] = useState("all");
+  const [sourceDate, setSourceDate] = useState("");
   const [sort, setSort] = useState<SortOption>("date-desc");
   const [selectedMemory, setSelectedMemory] = useState<MemoryItem | null>(null);
 
   const memories = useMemo(() => (data?.memories || []) as MemoryItem[], [data?.memories]);
+
+  useEffect(() => {
+    if (!sourceDate) return;
+
+    const targetDailyFile = `memory/${sourceDate}.md`;
+    const hasDailyFile = (data?.meta.sourceFiles ?? []).includes(targetDailyFile);
+
+    if (hasDailyFile) {
+      setSourceFile(targetDailyFile);
+      return;
+    }
+
+    if (sourceFile.startsWith("memory/")) {
+      setSourceFile("all");
+    }
+  }, [sourceDate, data?.meta.sourceFiles, sourceFile]);
+
+  useEffect(() => {
+    const selectedDate = sourceFile.match(/memory\/(\d{4}-\d{2}-\d{2})\.md/)?.[1] ?? "";
+    if (selectedDate !== sourceDate) {
+      setSourceDate(selectedDate);
+    }
+  }, [sourceFile, sourceDate]);
 
   const filteredMemories = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -41,9 +77,9 @@ export default function MemoryMissionControl() {
 
       const inSource = sourceFile === "all" || memory.sourceFile === sourceFile;
 
-      const date = new Date(memory.date).getTime();
-      const fromOk = !fromDate || date >= new Date(`${fromDate}T00:00:00`).getTime();
-      const toOk = !toDate || date <= new Date(`${toDate}T23:59:59`).getTime();
+      const memoryDateKey = getMemoryDateKey(memory);
+      const fromOk = !fromDate || (!!memoryDateKey && memoryDateKey >= fromDate);
+      const toOk = !toDate || (!!memoryDateKey && memoryDateKey <= toDate);
 
       return inQuery && inSource && fromOk && toOk;
     });
@@ -97,11 +133,13 @@ export default function MemoryMissionControl() {
         toDate={toDate}
         sourceFile={sourceFile}
         sourceFiles={data?.meta.sourceFiles ?? []}
+        sourceDate={sourceDate}
         sort={sort}
         onQueryChange={setQuery}
         onFromDateChange={setFromDate}
         onToDateChange={setToDate}
         onSourceFileChange={setSourceFile}
+        onSourceDateChange={setSourceDate}
         onSortChange={setSort}
       />
 
