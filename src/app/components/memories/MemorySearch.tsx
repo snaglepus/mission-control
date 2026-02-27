@@ -1,5 +1,6 @@
 "use client";
 
+import { RefObject, useRef } from "react";
 import { Search, CalendarRange, FileText, ArrowUpDown, Clock3 } from "lucide-react";
 import { SortOption } from "./types";
 
@@ -38,6 +39,21 @@ export default function MemorySearch(props: MemorySearchProps) {
 
   const sortedSourceFiles = [...sourceFiles].sort((a, b) => b.localeCompare(a));
 
+  const fromDateRef = useRef<HTMLInputElement>(null);
+  const toDateRef = useRef<HTMLInputElement>(null);
+  const sourceDateRef = useRef<HTMLInputElement>(null);
+
+  const openPicker = (ref: RefObject<HTMLInputElement | null>) => {
+    if (!ref.current) return;
+    // Chrome/Edge support showPicker; fallback focuses input.
+    if (typeof ref.current.showPicker === "function") {
+      ref.current.showPicker();
+    } else {
+      ref.current.focus();
+      ref.current.click();
+    }
+  };
+
   return (
     <div className="glass-card p-4 sm:p-5 space-y-4">
       <div className="relative">
@@ -51,65 +67,92 @@ export default function MemorySearch(props: MemorySearchProps) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
-        <label className="glass-card px-3 py-2 flex items-center gap-2">
-          <CalendarRange className="w-4 h-4 text-amber-400" />
-          <input
-            type="date"
-            value={fromDate}
-            onChange={(e) => onFromDateChange(e.target.value)}
-            className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
-            aria-label="Filter from date"
-          />
+        <div className="glass-card px-3 py-2 space-y-1">
+          <p className="text-[11px] uppercase tracking-wide text-slate-400">Date range: From</p>
+          <div className="flex items-center gap-2">
+            <CalendarRange className="w-4 h-4 text-amber-400" />
+            <input
+              ref={fromDateRef}
+              type="date"
+              value={fromDate}
+              onChange={(e) => onFromDateChange(e.target.value)}
+              className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
+              aria-label="Filter from date"
+            />
+            <button type="button" onClick={() => openPicker(fromDateRef)} className="text-[11px] px-2 py-1 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">
+              Pick
+            </button>
+          </div>
+        </div>
+
+        <div className="glass-card px-3 py-2 space-y-1">
+          <p className="text-[11px] uppercase tracking-wide text-slate-400">Date range: To</p>
+          <div className="flex items-center gap-2">
+            <CalendarRange className="w-4 h-4 text-amber-400" />
+            <input
+              ref={toDateRef}
+              type="date"
+              value={toDate}
+              onChange={(e) => onToDateChange(e.target.value)}
+              className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
+              aria-label="Filter to date"
+            />
+            <button type="button" onClick={() => openPicker(toDateRef)} className="text-[11px] px-2 py-1 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">
+              Pick
+            </button>
+          </div>
+        </div>
+
+        <div className="glass-card px-3 py-2 space-y-1">
+          <p className="text-[11px] uppercase tracking-wide text-slate-400">Quick day file</p>
+          <div className="flex items-center gap-2">
+            <Clock3 className="w-4 h-4 text-amber-400" />
+            <input
+              ref={sourceDateRef}
+              type="date"
+              value={sourceDate}
+              onChange={(e) => onSourceDateChange(e.target.value)}
+              className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
+              aria-label="Quick pick source file by date"
+            />
+            <button type="button" onClick={() => openPicker(sourceDateRef)} className="text-[11px] px-2 py-1 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">
+              Pick
+            </button>
+          </div>
+        </div>
+
+        <label className="glass-card px-3 py-2 space-y-1">
+          <p className="text-[11px] uppercase tracking-wide text-slate-400">Source file</p>
+          <div className="flex items-center gap-2">
+            <FileText className="w-4 h-4 text-amber-400" />
+            <select
+              value={sourceFile}
+              onChange={(e) => onSourceFileChange(e.target.value)}
+              className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
+            >
+              <option value="all" className="bg-slate-900">All sources</option>
+              {sortedSourceFiles.map((file) => (
+                <option key={file} value={file} className="bg-slate-900">{file}</option>
+              ))}
+            </select>
+          </div>
         </label>
 
-        <label className="glass-card px-3 py-2 flex items-center gap-2">
-          <CalendarRange className="w-4 h-4 text-amber-400" />
-          <input
-            type="date"
-            value={toDate}
-            onChange={(e) => onToDateChange(e.target.value)}
-            className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
-            aria-label="Filter to date"
-          />
-        </label>
-
-        <label className="glass-card px-3 py-2 flex items-center gap-2">
-          <Clock3 className="w-4 h-4 text-amber-400" />
-          <input
-            type="date"
-            value={sourceDate}
-            onChange={(e) => onSourceDateChange(e.target.value)}
-            className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
-            aria-label="Quick pick source file by date"
-          />
-        </label>
-
-        <label className="glass-card px-3 py-2 flex items-center gap-2">
-          <FileText className="w-4 h-4 text-amber-400" />
-          <select
-            value={sourceFile}
-            onChange={(e) => onSourceFileChange(e.target.value)}
-            className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
-          >
-            <option value="all" className="bg-slate-900">All sources</option>
-            {sortedSourceFiles.map((file) => (
-              <option key={file} value={file} className="bg-slate-900">{file}</option>
-            ))}
-          </select>
-        </label>
-
-        <label className="glass-card px-3 py-2 flex items-center gap-2">
-          <ArrowUpDown className="w-4 h-4 text-amber-400" />
-          <select
-            value={sort}
-            onChange={(e) => onSortChange(e.target.value as SortOption)}
-            className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
-          >
-            <option value="date-desc" className="bg-slate-900">Newest first</option>
-            <option value="date-asc" className="bg-slate-900">Oldest first</option>
-            <option value="alpha-asc" className="bg-slate-900">A → Z</option>
-            <option value="alpha-desc" className="bg-slate-900">Z → A</option>
-          </select>
+        <label className="glass-card px-3 py-2 space-y-1">
+          <p className="text-[11px] uppercase tracking-wide text-slate-400">Sort</p>
+          <div className="flex items-center gap-2">
+            <ArrowUpDown className="w-4 h-4 text-amber-400" />
+            <select
+              value={sort}
+              onChange={(e) => onSortChange(e.target.value as SortOption)}
+              className="bg-transparent text-sm text-slate-200 w-full focus:outline-none"
+            >
+              <option value="date-desc" className="bg-slate-900">Newest first</option>
+              <option value="date-asc" className="bg-slate-900">Oldest first</option>
+              <option value="alpha-asc" className="bg-slate-900">A → Z</option>
+              <option value="alpha-desc" className="bg-slate-900">Z → A</option>
+            </select>
+          </div>
         </label>
       </div>
     </div>
