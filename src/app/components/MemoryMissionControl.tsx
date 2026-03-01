@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Brain, Loader2, RefreshCw } from "lucide-react";
 import { useMemoriesData } from "../hooks/useRealtimeData";
 import MemorySearch from "./memories/MemorySearch";
@@ -40,29 +40,33 @@ export default function MemoryMissionControl() {
   const [selectedMemory, setSelectedMemory] = useState<MemoryItem | null>(null);
 
   const memories = useMemo(() => (data?.memories || []) as MemoryItem[], [data?.memories]);
+  const sourceFiles = useMemo(() => data?.meta.sourceFiles ?? [], [data?.meta.sourceFiles]);
 
-  useEffect(() => {
-    if (!sourceDate) return;
+  const sourceFileSet = useMemo(() => new Set(sourceFiles), [sourceFiles]);
 
-    const targetDailyFile = `memory/${sourceDate}.md`;
-    const hasDailyFile = (data?.meta.sourceFiles ?? []).includes(targetDailyFile);
+  const handleSourceDateChange = useCallback(
+    (value: string) => {
+      setSourceDate(value);
 
-    if (hasDailyFile) {
-      setSourceFile(targetDailyFile);
-      return;
-    }
+      if (!value) {
+        return;
+      }
 
-    if (sourceFile.startsWith("memory/")) {
-      setSourceFile("all");
-    }
-  }, [sourceDate, data?.meta.sourceFiles, sourceFile]);
+      const targetDailyFile = `memory/${value}.md`;
+      if (sourceFileSet.has(targetDailyFile)) {
+        setSourceFile(targetDailyFile);
+      } else {
+        setSourceFile("all");
+      }
+    },
+    [sourceFileSet]
+  );
 
-  useEffect(() => {
-    const selectedDate = sourceFile.match(/memory\/(\d{4}-\d{2}-\d{2})\.md/)?.[1] ?? "";
-    if (selectedDate !== sourceDate) {
-      setSourceDate(selectedDate);
-    }
-  }, [sourceFile, sourceDate]);
+  const handleSourceFileChange = useCallback((value: string) => {
+    setSourceFile(value);
+    const selectedDate = value.match(/memory\/(\d{4}-\d{2}-\d{2})\.md/)?.[1] ?? "";
+    setSourceDate(selectedDate);
+  }, []);
 
   const filteredMemories = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -132,14 +136,14 @@ export default function MemoryMissionControl() {
         fromDate={fromDate}
         toDate={toDate}
         sourceFile={sourceFile}
-        sourceFiles={data?.meta.sourceFiles ?? []}
+        sourceFiles={sourceFiles}
         sourceDate={sourceDate}
         sort={sort}
         onQueryChange={setQuery}
         onFromDateChange={setFromDate}
         onToDateChange={setToDate}
-        onSourceFileChange={setSourceFile}
-        onSourceDateChange={setSourceDate}
+        onSourceFileChange={handleSourceFileChange}
+        onSourceDateChange={handleSourceDateChange}
         onSortChange={setSort}
       />
 
