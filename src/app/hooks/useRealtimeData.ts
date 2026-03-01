@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 interface UseRealtimeDataOptions {
   refreshInterval?: number;
   onError?: (error: Error) => void;
+  cacheBust?: boolean;
 }
 
 interface ApiResponse<T> {
@@ -17,7 +18,7 @@ export function useRealtimeData<T>(
   endpoint: string,
   options: UseRealtimeDataOptions = {}
 ) {
-  const { refreshInterval = 30000, onError } = options;
+  const { refreshInterval = 30000, onError, cacheBust = false } = options;
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -25,7 +26,11 @@ export function useRealtimeData<T>(
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(endpoint);
+      const targetEndpoint = cacheBust
+        ? `${endpoint}${endpoint.includes("?") ? "&" : "?"}_ts=${Date.now()}`
+        : endpoint;
+
+      const response = await fetch(targetEndpoint, { cache: "no-store" });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -45,7 +50,7 @@ export function useRealtimeData<T>(
     } finally {
       setLoading(false);
     }
-  }, [endpoint, onError]);
+  }, [cacheBust, endpoint, onError]);
 
   useEffect(() => {
     fetchData();
@@ -147,5 +152,8 @@ export interface MemoriesResponse {
 }
 
 export function useMemoriesData() {
-  return useRealtimeData<MemoriesResponse>('/api/memories', { refreshInterval: 60000 });
+  return useRealtimeData<MemoriesResponse>('/api/memories', {
+    refreshInterval: 10000,
+    cacheBust: true,
+  });
 }
