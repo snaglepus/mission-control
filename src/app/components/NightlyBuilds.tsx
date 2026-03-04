@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Moon,
   ChevronRight,
@@ -31,7 +33,13 @@ interface NightlyFile {
 
 function getFileIcon(name: string) {
   if (name.endsWith(".html") || name.endsWith(".htm")) return Globe;
-  if (name.endsWith(".ts") || name.endsWith(".tsx") || name.endsWith(".js") || name.endsWith(".py")) return Code;
+  if (
+    name.endsWith(".ts") ||
+    name.endsWith(".tsx") ||
+    name.endsWith(".js") ||
+    name.endsWith(".py")
+  )
+    return Code;
   return FileText;
 }
 
@@ -41,6 +49,22 @@ function formatFileSize(bytes: string | undefined): string {
   if (b < 1024) return `${b}B`;
   if (b < 1024 * 1024) return `${(b / 1024).toFixed(1)}KB`;
   return `${(b / (1024 * 1024)).toFixed(1)}MB`;
+}
+
+function isMarkdown(file: NightlyFile): boolean {
+  return (
+    file.name.endsWith(".md") ||
+    file.name.endsWith(".markdown") ||
+    file.mimeType === "text/markdown"
+  );
+}
+
+function isHtml(file: NightlyFile): boolean {
+  return (
+    file.name.endsWith(".html") ||
+    file.name.endsWith(".htm") ||
+    file.mimeType === "text/html"
+  );
 }
 
 export default function NightlyBuilds() {
@@ -75,7 +99,9 @@ export default function NightlyBuilds() {
     setSelectedFile(null);
     setFileContent(null);
     try {
-      const res = await fetch(`/api/nightly?date=${date}`, { cache: "no-store" });
+      const res = await fetch(`/api/nightly?date=${date}`, {
+        cache: "no-store",
+      });
       const data = await res.json();
       setFiles(data.files || []);
     } catch {
@@ -84,11 +110,29 @@ export default function NightlyBuilds() {
     setLoadingFiles(false);
   }
 
+  function openFile(file: NightlyFile) {
+    if (isHtml(file)) {
+      // Open HTML in a new tab via the render endpoint
+      window.open(
+        `/api/nightly/render?fileId=${file.id}&type=html`,
+        "_blank"
+      );
+    } else if (isMarkdown(file)) {
+      // Render markdown inline
+      fetchFileContent(file);
+    } else {
+      // Other files — show raw content
+      fetchFileContent(file);
+    }
+  }
+
   async function fetchFileContent(file: NightlyFile) {
     setLoadingContent(true);
     setSelectedFile(file);
     try {
-      const res = await fetch(`/api/nightly?fileId=${file.id}`, { cache: "no-store" });
+      const res = await fetch(`/api/nightly?fileId=${file.id}`, {
+        cache: "no-store",
+      });
       const data = await res.json();
       setFileContent(data.content || "Unable to load content");
     } catch {
@@ -190,10 +234,11 @@ export default function NightlyBuilds() {
           ) : (
             files.map((file) => {
               const Icon = getFileIcon(file.name);
+              const html = isHtml(file);
               return (
                 <button
                   key={file.id}
-                  onClick={() => fetchFileContent(file)}
+                  onClick={() => openFile(file)}
                   className="flex items-center justify-between p-4 rounded-2xl bg-slate-800/30 border border-slate-700/50 hover:border-amber-500/30 hover:bg-slate-800/50 transition-all group"
                 >
                   <div className="flex items-center gap-4">
@@ -204,15 +249,21 @@ export default function NightlyBuilds() {
                       <div className="font-medium text-slate-100">
                         {file.name}
                       </div>
-                      <div className="text-xs text-slate-400 flex items-center gap-2">
-                        {formatFileSize(file.size)}
+                      <div className="text-xs text-slate-400 flex items-center gap-3">
+                        <span>{formatFileSize(file.size)}</span>
+                        {html && (
+                          <span className="text-amber-400 flex items-center gap-1">
+                            <ExternalLink className="w-3 h-3" />
+                            Opens in new tab
+                          </span>
+                        )}
                         {file.webViewLink && (
                           <a
                             href={file.webViewLink}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-amber-400 hover:text-amber-300 flex items-center gap-1"
+                            className="text-slate-500 hover:text-amber-300 flex items-center gap-1"
                           >
                             <ExternalLink className="w-3 h-3" />
                             Drive
@@ -229,7 +280,7 @@ export default function NightlyBuilds() {
         </div>
       )}
 
-      {/* File content viewer */}
+      {/* File content viewer (markdown + raw) */}
       {selectedFile && (
         <div className="rounded-2xl bg-slate-800/30 border border-slate-700/50 overflow-hidden">
           <div className="flex items-center justify-between p-4 border-b border-slate-700/50">
@@ -252,6 +303,12 @@ export default function NightlyBuilds() {
             {loadingContent ? (
               <div className="flex items-center justify-center py-10">
                 <Loader2 className="w-6 h-6 text-amber-400 animate-spin" />
+              </div>
+            ) : isMarkdown(selectedFile) ? (
+              <div className="prose prose-invert prose-amber max-w-none prose-headings:text-amber-200 prose-a:text-amber-400 prose-strong:text-slate-200 prose-code:text-amber-300 prose-code:bg-slate-700/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-slate-900/80 prose-pre:border prose-pre:border-slate-700/50 prose-table:border-collapse prose-th:border prose-th:border-slate-600 prose-th:px-3 prose-th:py-2 prose-th:bg-slate-800/50 prose-td:border prose-td:border-slate-700 prose-td:px-3 prose-td:py-2 prose-li:text-slate-300 prose-p:text-slate-300 prose-blockquote:border-amber-500/50 prose-blockquote:text-slate-400">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {fileContent || ""}
+                </ReactMarkdown>
               </div>
             ) : (
               <pre className="whitespace-pre-wrap text-sm text-slate-300 font-mono leading-relaxed">
