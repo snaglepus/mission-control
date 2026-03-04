@@ -283,5 +283,242 @@
   .logo-orb {
     animation: logo-pulse 3.5s ease-in-out infinite;
   }
+
+  /* ── Nightly Builds: Markdown Prose ── */
+  .nightly-prose {
+    color: var(--text-primary);
+    line-height: 1.75;
+    font-size: 0.95rem;
+  }
+
+  .nightly-prose h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+    background: linear-gradient(90deg, #fcd34d, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nightly-prose h1:first-child {
+    margin-top: 0;
+  }
+
+  .nightly-prose h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.375rem;
+    border-bottom: 1px solid rgba(251, 191, 36, 0.12);
+    color: #fcd34d;
+  }
+
+  .nightly-prose h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: #f5c778;
+  }
+
+  .nightly-prose h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #d4a574;
+  }
+
+  .nightly-prose p {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: #e8ddd0;
+  }
+
+  .nightly-prose strong {
+    color: #fef3c7;
+    font-weight: 600;
+  }
+
+  .nightly-prose em {
+    color: #d4a574;
+    font-style: italic;
+  }
+
+  .nightly-prose a {
+    color: #f59e0b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s;
+  }
+
+  .nightly-prose a:hover {
+    color: #fcd34d;
+  }
+
+  /* Lists */
+  .nightly-prose ul {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+  }
+
+  .nightly-prose ol {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    list-style-type: decimal;
+  }
+
+  .nightly-prose li {
+    margin-top: 0.375rem;
+    margin-bottom: 0.375rem;
+    color: #e8ddd0;
+    padding-left: 0.25rem;
+  }
+
+  .nightly-prose li::marker {
+    color: #f59e0b;
+  }
+
+  .nightly-prose ul ul,
+  .nightly-prose ol ol,
+  .nightly-prose ul ol,
+  .nightly-prose ol ul {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Tables */
+  .nightly-prose table {
+    width: 100%;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(251, 191, 36, 0.15);
+  }
+
+  .nightly-prose thead {
+    background: rgba(251, 191, 36, 0.08);
+  }
+
+  .nightly-prose th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #fcd34d;
+    border-bottom: 2px solid rgba(251, 191, 36, 0.2);
+    white-space: nowrap;
+  }
+
+  .nightly-prose td {
+    padding: 0.625rem 1rem;
+    border-bottom: 1px solid rgba(251, 191, 36, 0.08);
+    color: #e8ddd0;
+  }
+
+  .nightly-prose tbody tr:hover {
+    background: rgba(251, 191, 36, 0.04);
+  }
+
+  .nightly-prose tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Code */
+  .nightly-prose code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.85em;
+    padding: 0.2em 0.45em;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(251, 191, 36, 0.1);
+    color: #f5c778;
+  }
+
+  .nightly-prose pre {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(251, 191, 36, 0.12);
+    overflow-x: auto;
+  }
+
+  .nightly-prose pre code {
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 0.85rem;
+    color: #e8ddd0;
+  }
+
+  /* Blockquotes */
+  .nightly-prose blockquote {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-left: 3px solid #f59e0b;
+    background: rgba(251, 191, 36, 0.04);
+    border-radius: 0 8px 8px 0;
+    color: #c4a882;
+    font-style: italic;
+  }
+
+  .nightly-prose blockquote p {
+    margin: 0.25rem 0;
+  }
+
+  /* Horizontal rules */
+  .nightly-prose hr {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid rgba(251, 191, 36, 0.15);
+  }
+
+  /* Task lists (GFM) */
+  .nightly-prose input[type="checkbox"] {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1.5px solid #f59e0b;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    position: relative;
+    top: -1px;
+  }
+
+  .nightly-prose input[type="checkbox"]:checked {
+    background: #f59e0b;
+  }
+
+  .nightly-prose input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    font-size: 0.7rem;
+    color: #1a0f00;
+    font-weight: 700;
+  }
+
+  /* Images */
+  .nightly-prose img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 1rem 0;
+    border: 1px solid rgba(251, 191, 36, 0.15);
+  }
 }
 

@@ -305,7 +305,7 @@ export default function NightlyBuilds() {
                 <Loader2 className="w-6 h-6 text-amber-400 animate-spin" />
               </div>
             ) : isMarkdown(selectedFile) ? (
-              <div className="prose prose-invert prose-amber max-w-none prose-headings:text-amber-200 prose-a:text-amber-400 prose-strong:text-slate-200 prose-code:text-amber-300 prose-code:bg-slate-700/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-slate-900/80 prose-pre:border prose-pre:border-slate-700/50 prose-table:border-collapse prose-th:border prose-th:border-slate-600 prose-th:px-3 prose-th:py-2 prose-th:bg-slate-800/50 prose-td:border prose-td:border-slate-700 prose-td:px-3 prose-td:py-2 prose-li:text-slate-300 prose-p:text-slate-300 prose-blockquote:border-amber-500/50 prose-blockquote:text-slate-400">
+              <div className="nightly-prose max-w-none">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {fileContent || ""}
                 </ReactMarkdown>
