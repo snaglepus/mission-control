@@ -16,26 +16,29 @@ interface DriveFile {
 }
 
 async function gogDriveSearch(query: string): Promise<DriveFile[]> {
-  const { execSync } = await import("child_process");
+  const { execFileSync } = await import("child_process");
   try {
-    const raw = execSync(
-      `gog drive search "${query}" --account rob@robjam.es -j`,
+    const raw = execFileSync(
+      "gog",
+      ["drive", "search", query, "--account", "rob@robjam.es", "-j"],
       { encoding: "utf-8", timeout: 15000 }
     );
     const data = JSON.parse(raw);
     return data.files || [];
-  } catch {
+  } catch (err) {
+    console.error("gogDriveSearch error:", err);
     return [];
   }
 }
 
 async function gogDriveDownload(fileId: string): Promise<string | null> {
-  const { execSync } = await import("child_process");
+  const { execFileSync } = await import("child_process");
   const { existsSync, readFileSync, unlinkSync } = await import("fs");
   const tmpPath = `/tmp/mc-nightly-${fileId}`;
   try {
-    execSync(
-      `gog drive download "${fileId}" --out "${tmpPath}" --account rob@robjam.es`,
+    execFileSync(
+      "gog",
+      ["drive", "download", fileId, "--out", tmpPath, "--account", "rob@robjam.es"],
       { encoding: "utf-8", timeout: 15000 }
     );
     if (existsSync(tmpPath)) {
