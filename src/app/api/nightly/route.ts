@@ -15,11 +15,13 @@ interface DriveFile {
   webViewLink?: string;
 }
 
+const GOG_PATH = "/home/linuxbrew/.linuxbrew/bin/gog";
+
 async function gogDriveSearch(query: string): Promise<DriveFile[]> {
   const { execFileSync } = await import("child_process");
   try {
     const raw = execFileSync(
-      "gog",
+      GOG_PATH,
       ["drive", "search", query, "--account", "rob@robjam.es", "-j"],
       { encoding: "utf-8", timeout: 15000 }
     );
@@ -37,7 +39,7 @@ async function gogDriveDownload(fileId: string): Promise<string | null> {
   const tmpPath = `/tmp/mc-nightly-${fileId}`;
   try {
     execFileSync(
-      "gog",
+      GOG_PATH,
       ["drive", "download", fileId, "--out", tmpPath, "--account", "rob@robjam.es"],
       { encoding: "utf-8", timeout: 15000 }
     );
