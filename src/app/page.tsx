@@ -17,14 +17,16 @@ import {
   ArrowUpRight,
   MoreHorizontal,
   Menu,
-  X
+  X,
+  Moon
 } from "lucide-react";
 import ClientCommandCenter from "./components/ClientCommandCenter";
 import MeetingIntelligence from "./components/MeetingIntelligence";
 import TaskMissionControl from "./components/TaskMissionControl";
 import MemoryMissionControl from "./components/MemoryMissionControl";
+import NightlyBuilds from "./components/NightlyBuilds";
 
-type ToolView = "dashboard" | "clients" | "meetings" | "tasks" | "memories";
+type ToolView = "dashboard" | "clients" | "meetings" | "tasks" | "memories" | "nightly";
 
 export default function MissionControl() {
   const [activeView, setActiveView] = useState<ToolView>("dashboard");
@@ -45,6 +47,7 @@ export default function MissionControl() {
     { id: "meetings" as ToolView, name: "Meetings", icon: Calendar },
     { id: "tasks" as ToolView, name: "Tasks", icon: CheckSquare },
     { id: "memories" as ToolView, name: "Memories", icon: Brain },
+    { id: "nightly" as ToolView, name: "Nightly", icon: Moon },
   ];
 
   return (
@@ -146,6 +149,7 @@ export default function MissionControl() {
           {activeView === "meetings" && <MeetingIntelligence />}
           {activeView === "tasks" && <TaskMissionControl />}
           {activeView === "memories" && <MemoryMissionControl />}
+          {activeView === "nightly" && <NightlyBuilds />}
         </main>
       </div>
 
@@ -273,6 +277,13 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       view: "memories" as ToolView,
       icon: Brain,
       color: "amber"
+    },
+    {
+      name: "Nightly Builds",
+      description: "Autonomous overnight work artifacts",
+      view: "nightly" as ToolView,
+      icon: Moon,
+      color: "violet"
     },
   ];
 
