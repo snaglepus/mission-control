@@ -3,21 +3,8 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const GOOGLE_DRIVE_API = "https://www.googleapis.com/drive/v3";
-
 // Root OLIVIA/Nightly folder on Drive
 const NIGHTLY_FOLDER_ID = "1lhYbFFayaai64XSEqu_MAVVq0R1J0zsE";
-
-async function getAccessToken(): Promise<string | null> {
-  const { execSync } = await import("child_process");
-  try {
-    return execSync("gog auth token --account rob@robjam.es", {
-      encoding: "utf-8",
-    }).trim();
-  } catch {
-    return null;
-  }
-}
 
 interface DriveFile {
   id: string;
@@ -28,40 +15,38 @@ interface DriveFile {
   webViewLink?: string;
 }
 
-async function listFolder(
-  folderId: string,
-  token: string
-): Promise<DriveFile[]> {
-  const q = encodeURIComponent(`'${folderId}' in parents and trashed = false`);
-  const fields = encodeURIComponent(
-    "files(id,name,mimeType,modifiedTime,size,webViewLink)"
-  );
-  const res = await fetch(
-    `${GOOGLE_DRIVE_API}/files?q=${q}&fields=${fields}&orderBy=name desc&pageSize=100`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    }
-  );
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.files || [];
+async function gogDriveSearch(query: string): Promise<DriveFile[]> {
+  const { execSync } = await import("child_process");
+  try {
+    const raw = execSync(
+      `gog drive search "${query}" --account rob@robjam.es -j`,
+      { encoding: "utf-8", timeout: 15000 }
+    );
+    const data = JSON.parse(raw);
+    return data.files || [];
+  } catch {
+    return [];
+  }
 }
 
-async function getFileContent(
-  fileId: string,
-  token: string
-): Promise<string | null> {
-  // Try export as text first (for Google Docs), then raw download
-  const res = await fetch(
-    `${GOOGLE_DRIVE_API}/files/${fileId}?alt=media`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
+async function gogDriveDownload(fileId: string): Promise<string | null> {
+  const { execSync } = await import("child_process");
+  const { existsSync, readFileSync, unlinkSync } = await import("fs");
+  const tmpPath = `/tmp/mc-nightly-${fileId}`;
+  try {
+    execSync(
+      `gog drive download "${fileId}" --out "${tmpPath}" --account rob@robjam.es`,
+      { encoding: "utf-8", timeout: 15000 }
+    );
+    if (existsSync(tmpPath)) {
+      const content = readFileSync(tmpPath, "utf-8");
+      unlinkSync(tmpPath);
+      return content;
     }
-  );
-  if (!res.ok) return null;
-  return res.text();
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 export async function GET(request: Request) {
@@ -69,17 +54,9 @@ export async function GET(request: Request) {
   const date = searchParams.get("date");
   const fileId = searchParams.get("fileId");
 
-  const token = await getAccessToken();
-  if (!token) {
-    return NextResponse.json(
-      { error: "Failed to get access token" },
-      { status: 500 }
-    );
-  }
-
   // If requesting specific file content
   if (fileId) {
-    const content = await getFileContent(fileId, token);
+    const content = await gogDriveDownload(fileId);
     return NextResponse.json(
       { content },
       {
@@ -90,19 +67,19 @@ export async function GET(request: Request) {
     );
   }
 
-  // List date folders
-  const dateFolders = await listFolder(NIGHTLY_FOLDER_ID, token);
-  const folders = dateFolders
-    .filter((f) => f.mimeType === "application/vnd.google-apps.folder")
-    .sort((a, b) => b.name.localeCompare(a.name));
+  // List date folders in Nightly
+  const folders = await gogDriveSearch(
+    `'${NIGHTLY_FOLDER_ID}' in parents and mimeType = 'application/vnd.google-apps.folder'`
+  );
+  const sortedFolders = folders.sort((a, b) => b.name.localeCompare(a.name));
 
   // If requesting specific date's files
   if (date) {
-    const folder = folders.find((f) => f.name === date);
+    const folder = sortedFolders.find((f) => f.name === date);
     if (!folder) {
       return NextResponse.json({ files: [], date });
     }
-    const files = await listFolder(folder.id, token);
+    const files = await gogDriveSearch(`'${folder.id}' in parents`);
     return NextResponse.json(
       { files, date, folderId: folder.id },
       {
@@ -116,7 +93,7 @@ export async function GET(request: Request) {
   // Return all date folders
   return NextResponse.json(
     {
-      dates: folders.map((f) => ({
+      dates: sortedFolders.map((f) => ({
         date: f.name,
         id: f.id,
         modified: f.modifiedTime,
