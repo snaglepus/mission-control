@@ -80,30 +80,37 @@ export default function NightlyBuilds() {
   const [loading, setLoading] = useState(true);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [loadingContent, setLoadingContent] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchDates();
   }, []);
 
-  async function fetchDates() {
+  async function fetchDates(forceRefresh = false) {
+    if (forceRefresh) setRefreshing(true);
     setLoading(true);
     try {
-      const res = await fetch("/api/nightly");
+      const res = await fetch(forceRefresh ? "/api/nightly?refresh=1" : "/api/nightly");
       const data = await res.json();
       setDates(data.dates || []);
     } catch {
       console.error("Failed to fetch nightly dates");
     }
     setLoading(false);
+    if (forceRefresh) setRefreshing(false);
   }
 
-  async function fetchFiles(date: string) {
+  async function fetchFiles(date: string, forceRefresh = false) {
     setLoadingFiles(true);
     setSelectedDate(date);
     setSelectedFile(null);
     setFileContent(null);
     try {
-      const res = await fetch(`/api/nightly?date=${date}`);
+      const res = await fetch(
+        forceRefresh
+          ? `/api/nightly?date=${date}&refresh=1`
+          : `/api/nightly?date=${date}`
+      );
       const data = await res.json();
       setFiles(data.files || []);
     } catch {
@@ -154,28 +161,43 @@ export default function NightlyBuilds() {
   return (
     <div className="p-4 sm:p-8 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
-        {(selectedDate || selectedFile) && (
-          <button
-            onClick={goBack}
-            className="p-2 rounded-xl bg-slate-800/50 hover:bg-slate-700/50 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-slate-400" />
-          </button>
-        )}
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-amber-200 to-orange-400 bg-clip-text text-transparent flex items-center gap-3">
-            <Moon className="w-7 h-7 text-amber-400" />
-            Nightly Builds
-          </h1>
-          <p className="text-slate-400 text-sm mt-1">
-            {selectedFile
-              ? selectedFile.name
-              : selectedDate
-              ? `Build artifacts for ${selectedDate}`
-              : "Autonomous overnight work — reviewed each morning"}
-          </p>
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-4">
+          {(selectedDate || selectedFile) && (
+            <button
+              onClick={goBack}
+              className="p-2 rounded-xl bg-slate-800/50 hover:bg-slate-700/50 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 text-slate-400" />
+            </button>
+          )}
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-amber-200 to-orange-400 bg-clip-text text-transparent flex items-center gap-3">
+              <Moon className="w-7 h-7 text-amber-400" />
+              Nightly Builds
+            </h1>
+            <p className="text-slate-400 text-sm mt-1">
+              {selectedFile
+                ? selectedFile.name
+                : selectedDate
+                ? `Build artifacts for ${selectedDate}`
+                : "Autonomous overnight work — reviewed each morning"}
+            </p>
+          </div>
         </div>
+
+        <button
+          onClick={async () => {
+            if (selectedDate) {
+              await fetchFiles(selectedDate, true);
+            }
+            await fetchDates(true);
+          }}
+          disabled={refreshing}
+          className="px-3 py-2 rounded-lg bg-slate-800/60 border border-slate-700/50 text-slate-200 hover:border-amber-500/30 hover:text-amber-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all text-sm"
+        >
+          {refreshing ? "Refreshing..." : "Refresh"}
+        </button>
       </div>
 
       {/* Search bar */}
