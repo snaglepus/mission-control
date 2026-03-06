@@ -18,19 +18,22 @@ import {
   MoreHorizontal,
   Menu,
   X,
-  Moon
+  Moon,
+  Rocket
 } from "lucide-react";
 import ClientCommandCenter from "./components/ClientCommandCenter";
 import MeetingIntelligence from "./components/MeetingIntelligence";
 import TaskMissionControl from "./components/TaskMissionControl";
 import MemoryMissionControl from "./components/MemoryMissionControl";
 import NightlyBuilds from "./components/NightlyBuilds";
+import StartupsHub from "./components/StartupsHub";
 
-type ToolView = "dashboard" | "clients" | "meetings" | "tasks" | "memories" | "nightly";
+type ToolView = "dashboard" | "clients" | "meetings" | "tasks" | "memories" | "nightly" | "startups";
 
 export default function MissionControl() {
   const [activeView, setActiveView] = useState<ToolView>("dashboard");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (drawerOpen) {
@@ -48,6 +51,7 @@ export default function MissionControl() {
     { id: "tasks" as ToolView, name: "Tasks", icon: CheckSquare },
     { id: "memories" as ToolView, name: "Memories", icon: Brain },
     { id: "nightly" as ToolView, name: "Nightly", icon: Moon },
+    { id: "startups" as ToolView, name: "Startups", icon: Rocket },
   ];
 
   return (
@@ -105,7 +109,9 @@ export default function MissionControl() {
               <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search clients, meetings, tasks..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search clients, meetings, tasks, startups..."
                 className="w-full bg-[#1a0f00]/50 border border-amber-500/20 rounded-xl pl-12 pr-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all"
               />
             </div>
@@ -114,6 +120,8 @@ export default function MissionControl() {
               <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search..."
                 className="w-full bg-[#1a0f00]/50 border border-amber-500/20 rounded-xl pl-9 pr-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all"
               />
@@ -150,6 +158,7 @@ export default function MissionControl() {
           {activeView === "tasks" && <TaskMissionControl />}
           {activeView === "memories" && <MemoryMissionControl />}
           {activeView === "nightly" && <NightlyBuilds />}
+          {activeView === "startups" && <StartupsHub searchQuery={searchQuery} />}
         </main>
       </div>
 
@@ -285,6 +294,13 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
       icon: Moon,
       color: "violet"
     },
+    {
+      name: "Startups",
+      description: "Structured startup workspaces and artifacts",
+      view: "startups" as ToolView,
+      icon: Rocket,
+      color: "violet"
+    },
   ];
 
   return (
@@ -332,6 +348,7 @@ function DashboardOverview({ setActiveView }: { setActiveView: (view: ToolView) 
               amber: "from-amber-400 to-amber-600 shadow-amber-500/30",
               orange: "from-orange-400 to-orange-600 shadow-orange-500/30",
               emerald: "from-emerald-500 to-emerald-600 shadow-emerald-500/30",
+              violet: "from-violet-500 to-purple-600 shadow-violet-500/30",
             };
             return (
               <button
