@@ -95,15 +95,57 @@ export async function GET(request: Request) {
     );
   }
 
-  // Return all date folders
-  return NextResponse.json(
-    {
-      dates: sortedFolders.map((f) => ({
+  // For each date folder, fetch files and build summary
+  const datesWithSummaries = await Promise.all(
+    sortedFolders.map(async (f) => {
+      const files = await gogDriveSearch(`'${f.id}' in parents`);
+      const fileNames = files
+        .map((file) => file.name)
+        .filter((name) => name !== "index.html" && name !== "SUMMARY.md");
+
+      // Try to load SUMMARY.md if it exists
+      const summaryFile = files.find((file) => file.name === "SUMMARY.md");
+      let summary = "";
+      if (summaryFile) {
+        const content = await gogDriveDownload(summaryFile.id);
+        if (content) {
+          // Extract first few lines as summary (skip title)
+          const lines = content
+            .split("\n")
+            .filter((l) => l.trim() && !l.startsWith("#"))
+            .slice(0, 5)
+            .join(" ")
+            .substring(0, 300);
+          summary = lines;
+        }
+      }
+
+      // Build auto-summary from file names if no SUMMARY.md
+      if (!summary && fileNames.length > 0) {
+        summary = fileNames
+          .map((name) =>
+            name
+              .replace(/\.md$/, "")
+              .replace(/\.html$/, "")
+              .replace(/-/g, " ")
+          )
+          .join(" • ");
+      }
+
+      return {
         date: f.name,
         id: f.id,
         modified: f.modifiedTime,
-      })),
-    },
+        fileCount: files.filter((file) => file.name !== "SUMMARY.md").length,
+        summary,
+        files: fileNames,
+      };
+    })
+  );
+
+  // Return all date folders with summaries
+  return NextResponse.json(
+    { dates: datesWithSummaries },
     {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate",

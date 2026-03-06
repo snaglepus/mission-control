@@ -20,6 +20,9 @@ interface DateEntry {
   date: string;
   id: string;
   modified: string;
+  fileCount?: number;
+  summary?: string;
+  files?: string[];
 }
 
 interface NightlyFile {
@@ -73,6 +76,7 @@ export default function NightlyBuilds() {
   const [files, setFiles] = useState<NightlyFile[]>([]);
   const [selectedFile, setSelectedFile] = useState<NightlyFile | null>(null);
   const [fileContent, setFileContent] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [loadingContent, setLoadingContent] = useState(false);
@@ -178,6 +182,19 @@ export default function NightlyBuilds() {
         </div>
       </div>
 
+      {/* Search bar */}
+      {!selectedDate && !loading && dates.length > 0 && (
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search nightly builds..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-all"
+          />
+        </div>
+      )}
+
       {/* Loading state */}
       {loading && (
         <div className="flex items-center justify-center py-20">
@@ -186,39 +203,80 @@ export default function NightlyBuilds() {
       )}
 
       {/* Date list */}
-      {!loading && !selectedDate && (
-        <div className="grid gap-3">
-          {dates.length === 0 && (
-            <div className="text-center py-20 text-slate-500">
-              No nightly builds yet. First build runs at 11:30 PM AEDT.
-            </div>
-          )}
-          {dates.map((entry) => (
-            <button
-              key={entry.date}
-              onClick={() => fetchFiles(entry.date)}
-              className="flex items-center justify-between p-5 rounded-2xl bg-slate-800/30 border border-slate-700/50 hover:border-amber-500/30 hover:bg-slate-800/50 transition-all group"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/20 flex items-center justify-center">
-                  <Calendar className="w-6 h-6 text-amber-400" />
-                </div>
-                <div className="text-left">
-                  <div className="text-lg font-semibold text-slate-100">
-                    {entry.date}
-                  </div>
-                  <div className="text-sm text-slate-400">
-                    {new Date(entry.modified).toLocaleString("en-AU", {
-                      timeZone: "Australia/Sydney",
-                    })}
-                  </div>
-                </div>
+      {!loading && !selectedDate && (() => {
+        const q = searchQuery.toLowerCase().trim();
+        const filtered = q
+          ? dates.filter(
+              (entry) =>
+                entry.date.includes(q) ||
+                (entry.summary || "").toLowerCase().includes(q) ||
+                (entry.files || []).some((f) => f.toLowerCase().includes(q))
+            )
+          : dates;
+
+        return (
+          <div className="grid gap-3">
+            {dates.length === 0 && (
+              <div className="text-center py-20 text-slate-500">
+                No nightly builds yet. First build runs at 11:30 PM AEDT.
               </div>
-              <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-amber-400 transition-colors" />
-            </button>
-          ))}
-        </div>
-      )}
+            )}
+            {filtered.length === 0 && dates.length > 0 && (
+              <div className="text-center py-12 text-slate-500">
+                No builds match &ldquo;{searchQuery}&rdquo;
+              </div>
+            )}
+            {filtered.map((entry) => (
+              <button
+                key={entry.date}
+                onClick={() => fetchFiles(entry.date)}
+                className="flex items-center justify-between p-5 rounded-2xl bg-slate-800/30 border border-slate-700/50 hover:border-amber-500/30 hover:bg-slate-800/50 transition-all group text-left"
+              >
+                <div className="flex items-start gap-4 flex-1 min-w-0">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/20 flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-6 h-6 text-amber-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3">
+                      <span className="text-lg font-semibold text-slate-100">
+                        {entry.date}
+                      </span>
+                      {entry.fileCount && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                          {entry.fileCount} {entry.fileCount === 1 ? "file" : "files"}
+                        </span>
+                      )}
+                    </div>
+                    {entry.summary && (
+                      <p className="text-sm text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
+                        {entry.summary}
+                      </p>
+                    )}
+                    {entry.files && entry.files.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {entry.files.map((fileName) => (
+                          <span
+                            key={fileName}
+                            className="text-xs px-2 py-0.5 rounded-md bg-slate-700/50 text-slate-400"
+                          >
+                            {fileName.replace(/\.md$/, "").replace(/-/g, " ")}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="text-xs text-slate-500 mt-1.5">
+                      {new Date(entry.modified).toLocaleString("en-AU", {
+                        timeZone: "Australia/Sydney",
+                      })}
+                    </div>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-amber-400 transition-colors flex-shrink-0 ml-2" />
+              </button>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* File list */}
       {selectedDate && !selectedFile && (
