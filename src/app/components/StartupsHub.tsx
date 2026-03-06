@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Rocket,
   FolderTree,
@@ -29,6 +29,11 @@ interface StartupConfig {
   tagline: string;
   location: string;
   items: StartupItem[];
+}
+
+interface NightlyDate {
+  date: string;
+  files?: string[];
 }
 
 const startups: StartupConfig[] = [
@@ -164,12 +169,107 @@ const categoryIcon = {
 
 export default function StartupsHub({ searchQuery = "" }: { searchQuery?: string }) {
   const [activeStartup, setActiveStartup] = useState<StartupId>("tablebooked");
+  const [nightlyDates, setNightlyDates] = useState<NightlyDate[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/nightly");
+        const data = await res.json();
+        setNightlyDates(data?.dates || []);
+      } catch {
+        setNightlyDates([]);
+      }
+    })();
+  }, []);
+
+  const startupsWithLiveStatus = useMemo(() => {
+    if (!nightlyDates.length) return startups;
+
+    const allFiles = new Set(
+      nightlyDates.flatMap((d) => d.files || []).map((f) => f.toLowerCase())
+    );
+
+    const hasItfmPrd = allFiles.has("itfm-mvp-prd.md");
+    const hasItfmMockup = allFiles.has("itfm-mvp-mockup.html");
+    const hasShannonPrd = allFiles.has("shannon-redteam-mvp-prd.md");
+    const hasShannonMockup = allFiles.has("shannon-redteam-mvp-mockup.html");
+
+    return startups.map((startup) => {
+      if (startup.id === "cyberchaos") {
+        return {
+          ...startup,
+          items: startup.items.map((item) => {
+            if (item.title === "Shannon MVP PRD + clickable mockup") {
+              if (hasShannonPrd && hasShannonMockup) {
+                return {
+                  ...item,
+                  status: "ready" as const,
+                  updated: "Latest nightly",
+                  notes: "Auto-detected from nightly outputs: PRD + clickable mockup present.",
+                };
+              }
+              if (hasShannonPrd || hasShannonMockup) {
+                return {
+                  ...item,
+                  status: "in-progress" as const,
+                  updated: "Partial output detected",
+                  notes: "Nightly produced partial Shannon artifacts. Missing one deliverable.",
+                };
+              }
+            }
+            return item;
+          }),
+        };
+      }
+
+      if (startup.id === "itfm") {
+        return {
+          ...startup,
+          items: startup.items.map((item) => {
+            if (item.title === "MVP PRD (client-ready)" && hasItfmPrd) {
+              return {
+                ...item,
+                status: "ready" as const,
+                updated: "Latest nightly",
+                notes: "Auto-detected from nightly outputs.",
+              };
+            }
+
+            if (item.title === "TBM Framework Mapping") {
+              if (hasItfmPrd) {
+                return {
+                  ...item,
+                  status: "ready" as const,
+                  updated: "Included in ITFM MVP PRD",
+                  notes: "TBM framework section detected as part of ITFM MVP PRD deliverable.",
+                };
+              }
+            }
+
+            if (item.title === "Clickable dashboard mockup" && hasItfmMockup) {
+              return {
+                ...item,
+                status: "ready" as const,
+                updated: "Latest nightly",
+                notes: "Auto-detected from nightly outputs.",
+              };
+            }
+
+            return item;
+          }),
+        };
+      }
+
+      return startup;
+    });
+  }, [nightlyDates]);
 
   const filteredStartups = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
-    if (!q) return startups;
+    if (!q) return startupsWithLiveStatus;
 
-    return startups
+    return startupsWithLiveStatus
       .map((startup) => ({
         ...startup,
         items: startup.items.filter(
@@ -183,7 +283,7 @@ export default function StartupsHub({ searchQuery = "" }: { searchQuery?: string
         ),
       }))
       .filter((s) => s.items.length > 0 || s.name.toLowerCase().includes(q) || s.tagline.toLowerCase().includes(q));
-  }, [searchQuery]);
+  }, [searchQuery, startupsWithLiveStatus]);
 
   const active =
     filteredStartups.find((s) => s.id === activeStartup) || filteredStartups[0];
