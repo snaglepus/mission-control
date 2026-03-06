@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import {
   Moon,
   ChevronRight,
@@ -13,8 +11,12 @@ import {
   ExternalLink,
   Loader2,
   Calendar,
-  Package,
 } from "lucide-react";
+import ArtifactContentViewer, {
+  ArtifactFile,
+  isHtml,
+  isMarkdown,
+} from "./artifacts/ArtifactContentViewer";
 
 interface DateEntry {
   date: string;
@@ -25,14 +27,7 @@ interface DateEntry {
   files?: string[];
 }
 
-interface NightlyFile {
-  id: string;
-  name: string;
-  mimeType: string;
-  modifiedTime: string;
-  size?: string;
-  webViewLink?: string;
-}
+type NightlyFile = ArtifactFile;
 
 function getFileIcon(name: string) {
   if (name.endsWith(".html") || name.endsWith(".htm")) return Globe;
@@ -54,21 +49,6 @@ function formatFileSize(bytes: string | undefined): string {
   return `${(b / (1024 * 1024)).toFixed(1)}MB`;
 }
 
-function isMarkdown(file: NightlyFile): boolean {
-  return (
-    file.name.endsWith(".md") ||
-    file.name.endsWith(".markdown") ||
-    file.mimeType === "text/markdown"
-  );
-}
-
-function isHtml(file: NightlyFile): boolean {
-  return (
-    file.name.endsWith(".html") ||
-    file.name.endsWith(".htm") ||
-    file.mimeType === "text/html"
-  );
-}
 
 export default function NightlyBuilds() {
   const [dates, setDates] = useState<DateEntry[]>([]);
@@ -357,43 +337,11 @@ export default function NightlyBuilds() {
       )}
 
       {/* File content viewer (markdown + raw) */}
-      {selectedFile && (
-        <div className="rounded-2xl bg-slate-800/30 border border-slate-700/50 overflow-hidden">
-          <div className="flex items-center justify-between p-4 border-b border-slate-700/50">
-            <div className="flex items-center gap-3">
-              <Package className="w-5 h-5 text-amber-400" />
-              <span className="font-medium">{selectedFile.name}</span>
-            </div>
-            {selectedFile.webViewLink && (
-              <a
-                href={selectedFile.webViewLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-amber-400 hover:text-amber-300 flex items-center gap-1"
-              >
-                Open in Drive <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
-          </div>
-          <div className="p-6 overflow-auto max-h-[70vh]">
-            {loadingContent ? (
-              <div className="flex items-center justify-center py-10">
-                <Loader2 className="w-6 h-6 text-amber-400 animate-spin" />
-              </div>
-            ) : isMarkdown(selectedFile) ? (
-              <div className="nightly-prose max-w-none">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {fileContent || ""}
-                </ReactMarkdown>
-              </div>
-            ) : (
-              <pre className="whitespace-pre-wrap text-sm text-slate-300 font-mono leading-relaxed">
-                {fileContent}
-              </pre>
-            )}
-          </div>
-        </div>
-      )}
+      <ArtifactContentViewer
+        selectedFile={selectedFile}
+        fileContent={fileContent}
+        loadingContent={loadingContent}
+      />
     </div>
   );
 }

@@ -10,7 +10,15 @@ import {
   Megaphone,
   ExternalLink,
   Layers,
+  Globe,
+  Code,
+  ChevronRight,
 } from "lucide-react";
+import ArtifactContentViewer, {
+  ArtifactFile,
+  isHtml,
+  isMarkdown,
+} from "./artifacts/ArtifactContentViewer";
 
 type StartupId = "tablebooked" | "cyberchaos" | "itfm";
 
@@ -167,9 +175,38 @@ const categoryIcon = {
   GTM: Megaphone,
 };
 
+function getFileIcon(name: string) {
+  if (name.endsWith(".html") || name.endsWith(".htm")) return Globe;
+  if (
+    name.endsWith(".ts") ||
+    name.endsWith(".tsx") ||
+    name.endsWith(".js") ||
+    name.endsWith(".py")
+  )
+    return Code;
+  return FileText;
+}
+
+function formatFileSize(bytes: string | undefined): string {
+  if (!bytes) return "";
+  const b = parseInt(bytes, 10);
+  if (Number.isNaN(b)) return "";
+  if (b < 1024) return `${b}B`;
+  if (b < 1024 * 1024) return `${(b / 1024).toFixed(1)}KB`;
+  return `${(b / (1024 * 1024)).toFixed(1)}MB`;
+}
+
 export default function StartupsHub({ searchQuery = "" }: { searchQuery?: string }) {
   const [activeStartup, setActiveStartup] = useState<StartupId>("tablebooked");
   const [nightlyDates, setNightlyDates] = useState<NightlyDate[]>([]);
+  const [startupFiles, setStartupFiles] = useState<Record<StartupId, ArtifactFile[]>>({
+    tablebooked: [],
+    cyberchaos: [],
+    itfm: [],
+  });
+  const [selectedFile, setSelectedFile] = useState<ArtifactFile | null>(null);
+  const [fileContent, setFileContent] = useState<string | null>(null);
+  const [loadingContent, setLoadingContent] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -182,6 +219,27 @@ export default function StartupsHub({ searchQuery = "" }: { searchQuery?: string
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/startups");
+        const data = await res.json();
+        setStartupFiles({
+          tablebooked: data?.startups?.tablebooked || [],
+          cyberchaos: data?.startups?.cyberchaos || [],
+          itfm: data?.startups?.itfm || [],
+        });
+      } catch {
+        setStartupFiles({ tablebooked: [], cyberchaos: [], itfm: [] });
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    setSelectedFile(null);
+    setFileContent(null);
+  }, [activeStartup]);
 
   const startupsWithLiveStatus = useMemo(() => {
     if (!nightlyDates.length) return startups;
@@ -264,6 +322,24 @@ export default function StartupsHub({ searchQuery = "" }: { searchQuery?: string
       return startup;
     });
   }, [nightlyDates]);
+
+  async function openArtifact(file: ArtifactFile) {
+    if (isHtml(file)) {
+      window.open(`/api/nightly/render?fileId=${file.id}&type=html`, "_blank");
+      return;
+    }
+
+    setLoadingContent(true);
+    setSelectedFile(file);
+    try {
+      const res = await fetch(`/api/nightly?fileId=${file.id}`);
+      const data = await res.json();
+      setFileContent(data.content || "Unable to load content");
+    } catch {
+      setFileContent("Failed to load file content");
+    }
+    setLoadingContent(false);
+  }
 
   const filteredStartups = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
@@ -379,6 +455,49 @@ export default function StartupsHub({ searchQuery = "" }: { searchQuery?: string
                     </div>
                   );
                 })}
+              </div>
+
+              <div className="mt-6">
+                <h3 className="text-sm uppercase tracking-wide text-slate-400 mb-3">
+                  Artifacts (Markdown + HTML)
+                </h3>
+                <div className="grid gap-2">
+                  {(startupFiles[active.id] || []).length === 0 && (
+                    <div className="text-sm text-slate-500">No markdown/html artifacts discovered yet.</div>
+                  )}
+                  {(startupFiles[active.id] || []).map((file) => {
+                    const Icon = getFileIcon(file.name);
+                    const html = isHtml(file);
+                    return (
+                      <button
+                        key={file.id}
+                        onClick={() => openArtifact(file)}
+                        className="flex items-center justify-between p-3 rounded-xl bg-slate-900/30 border border-slate-700/40 hover:border-amber-500/30 transition-all"
+                      >
+                        <div className="flex items-center gap-3 text-left">
+                          <div className="w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center">
+                            <Icon className="w-4 h-4 text-amber-300" />
+                          </div>
+                          <div>
+                            <div className="text-sm text-slate-100">{file.name}</div>
+                            <div className="text-xs text-slate-400">
+                              {formatFileSize(file.size)} {html ? "• Opens in new tab" : isMarkdown(file) ? "• Inline markdown view" : ""}
+                            </div>
+                          </div>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-slate-500" />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <ArtifactContentViewer
+                  selectedFile={selectedFile}
+                  fileContent={fileContent}
+                  loadingContent={loadingContent}
+                />
               </div>
             </div>
           )}
