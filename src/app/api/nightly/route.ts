@@ -3,6 +3,26 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+const LIST_TTL_MS = 5 * 60 * 1000;
+const FILES_TTL_MS = 5 * 60 * 1000;
+const CONTENT_TTL_MS = 60 * 60 * 1000;
+
+type CacheEntry<T> = { value: T; expiresAt: number };
+
+let listCache: CacheEntry<unknown> | null = null;
+const filesCache = new Map<string, CacheEntry<unknown>>();
+const contentCache = new Map<string, CacheEntry<string | null>>();
+
+function getCached<T>(entry: CacheEntry<T> | null | undefined): T | null {
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) return null;
+  return entry.value;
+}
+
+function setCached<T>(value: T, ttlMs: number): CacheEntry<T> {
+  return { value, expiresAt: Date.now() + ttlMs };
+}
+
 // Root OLIVIA/Nightly folder on Drive
 const NIGHTLY_FOLDER_ID = "1lhYbFFayaai64XSEqu_MAVVq0R1J0zsE";
 
@@ -58,15 +78,32 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const date = searchParams.get("date");
   const fileId = searchParams.get("fileId");
+  const refresh = searchParams.get("refresh") === "1";
 
   // If requesting specific file content
   if (fileId) {
+    if (!refresh) {
+      const cached = getCached(contentCache.get(fileId));
+      if (cached) {
+        return NextResponse.json(
+          { content: cached },
+          {
+            headers: {
+              "Cache-Control": "private, max-age=300, stale-while-revalidate=3600",
+            },
+          }
+        );
+      }
+    }
+
     const content = await gogDriveDownload(fileId);
+    contentCache.set(fileId, setCached(content, CONTENT_TTL_MS));
+
     return NextResponse.json(
       { content },
       {
         headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Cache-Control": "private, max-age=300, stale-while-revalidate=3600",
         },
       }
     );
@@ -80,19 +117,50 @@ export async function GET(request: Request) {
 
   // If requesting specific date's files
   if (date) {
+    if (!refresh) {
+      const cached = getCached(filesCache.get(date));
+      if (cached) {
+        return NextResponse.json(
+          cached,
+          {
+            headers: {
+              "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
+            },
+          }
+        );
+      }
+    }
+
     const folder = sortedFolders.find((f) => f.name === date);
     if (!folder) {
       return NextResponse.json({ files: [], date });
     }
     const files = await gogDriveSearch(`'${folder.id}' in parents`);
+    const payload = { files, date, folderId: folder.id };
+    filesCache.set(date, setCached(payload, FILES_TTL_MS));
+
     return NextResponse.json(
-      { files, date, folderId: folder.id },
+      payload,
       {
         headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
         },
       }
     );
+  }
+
+  if (!refresh) {
+    const cached = getCached(listCache);
+    if (cached) {
+      return NextResponse.json(
+        cached,
+        {
+          headers: {
+            "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
+          },
+        }
+      );
+    }
   }
 
   // For each date folder, fetch files and build summary
@@ -143,12 +211,15 @@ export async function GET(request: Request) {
     })
   );
 
+  const payload = { dates: datesWithSummaries };
+  listCache = setCached(payload, LIST_TTL_MS);
+
   // Return all date folders with summaries
   return NextResponse.json(
-    { dates: datesWithSummaries },
+    payload,
     {
       headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
       },
     }
   );

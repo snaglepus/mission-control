@@ -88,7 +88,7 @@ export default function NightlyBuilds() {
   async function fetchDates() {
     setLoading(true);
     try {
-      const res = await fetch("/api/nightly", { cache: "no-store" });
+      const res = await fetch("/api/nightly");
       const data = await res.json();
       setDates(data.dates || []);
     } catch {
@@ -103,9 +103,7 @@ export default function NightlyBuilds() {
     setSelectedFile(null);
     setFileContent(null);
     try {
-      const res = await fetch(`/api/nightly?date=${date}`, {
-        cache: "no-store",
-      });
+      const res = await fetch(`/api/nightly?date=${date}`);
       const data = await res.json();
       setFiles(data.files || []);
     } catch {
@@ -134,9 +132,7 @@ export default function NightlyBuilds() {
     setLoadingContent(true);
     setSelectedFile(file);
     try {
-      const res = await fetch(`/api/nightly?fileId=${file.id}`, {
-        cache: "no-store",
-      });
+      const res = await fetch(`/api/nightly?fileId=${file.id}`);
       const data = await res.json();
       setFileContent(data.content || "Unable to load content");
     } catch {
