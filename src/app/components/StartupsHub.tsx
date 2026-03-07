@@ -481,7 +481,20 @@ export default function StartupsHub({ searchQuery = "" }: { searchQuery?: string
                           <div>
                             <div className="text-sm text-slate-100">{file.name}</div>
                             <div className="text-xs text-slate-400">
-                              {formatFileSize(file.size)} {html ? "• Opens in new tab" : isMarkdown(file) ? "• Inline markdown view" : ""}
+                              {file.modifiedTime && (
+                                <span>
+                                  {new Date(file.modifiedTime).toLocaleString("en-AU", {
+                                    timeZone: "Australia/Sydney",
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                  {" • "}
+                                </span>
+                              )}
+                              {formatFileSize(file.size)}{file.size ? " • " : ""}{html ? "Opens in new tab" : isMarkdown(file) ? "Inline markdown view" : ""}
                             </div>
                           </div>
                         </div>
